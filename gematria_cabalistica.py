@@ -44,32 +44,32 @@ class GematriaCabalisticaNode:
 
         # 5. Diccionario de Salidas
         mapeo_salidas = {
-            1: ("Keter (Corona)", "glowing white crown, pure blinding light, hyperdetailed celestial geometry, divine spark, gold accents, masterpiece"),
-            2: ("Chochmah (Sabiduría)", "cosmic nebula, ancient silver stars, deep space, flowing energy, wisdom, mystical, 8k"),
-            3: ("Binah (Entendimiento)", "deep indigo ocean, cosmic womb, dark mystical waters, ancient temple, profound shadows"),
-            4: ("Chesed (Misericordia)", "majestic blue sky, expansive kingdom, throne of mercy, jupiter symbolism, grand architecture"),
-            5: ("Gevurah (Rigor)", "sacred fire, glowing red ruby, ancient warrior armor, intense energy, sparks, mars symbolism"),
-            6: ("Tiferet (Belleza)", "radiant golden sun, heart chakra, perfect balance, divine symmetry, glowing aura, beautiful mystical art"),
-            7: ("Netzach (Victoria)", "emerald green nature, blooming mystical flowers, venus symbolism, passion, vibrant life force"),
-            8: ("Hod (Esplendor)", "ancient scrolls, sacred geometry, glowing orange light, mercury symbolism, intricate logic pathways"),
-            9: ("Yesod (Fundamento)", "mystical glowing purple moon, ethereal mist, crystal reflections, dreamlike atmosphere, subconscious"),
-            10: ("Malkhut (El Reino)", "ancient glowing roots, physical earth, rich soil, tree of life grounding, earthly manifestation"),
-            11: ("Sendero Aleph", "the fool tarot archetype, mystical cliff, pure potential, yellow bright background, fresh start"),
-            12: ("Sendero Bet", "the magician archetype, glowing tools of creation, mystical altar, manipulating energy"),
-            13: ("Sendero Gimel", "the high priestess, hidden knowledge, glowing blue crescent moon, veil of mysteries"),
-            14: ("Sendero Dalet", "the empress, lush mystical forest, abundance, feminine divine energy, waterfalls"),
-            15: ("Sendero He", "the emperor, solid red stone throne, authority, fiery background, structured power"),
-            16: ("Sendero Vav", "the hierophant, ancient mystical teachings, sacred keys, glowing esoteric symbols"),
-            17: ("Sendero Zain", "the lovers, twin flames glowing, perfect divine union, harmonious light"),
-            18: ("Sendero Chet", "the chariot, moving mystical energy, overcoming obstacles, glowing armor"),
-            19: ("Sendero Tet", "strength, glowing golden lion aura, gentle power, taming the beast"),
-            20: ("Sendero Yod", "the hermit, solitary glowing lantern in darkness, mountaintop, inner wisdom"),
-            21: ("Sendero Kaf", "wheel of fortune, spinning cosmic galaxy, fate, destiny, glowing celestial clock"),
-            22: ("Sendero Lamed", "justice, glowing golden scales, truth, cosmic balance, sword of light")
+            1: ("Keter (Corona)", "corona blanca brillante, luz cegadora pura, geometría celestial hiperdetallada, chispa divina, detalles en oro, obra maestra"),
+            2: ("Chochmah (Sabiduría)", "nebulosa cósmica, estrellas plateadas antiguas, espacio profundo, energía fluyente, sabiduría, místico, 8k"),
+            3: ("Binah (Entendimiento)", "océano índigo profundo, matriz cósmica, aguas místicas oscuras, templo antiguo, sombras profundas"),
+            4: ("Chesed (Misericordia)", "cielo azul majestuoso, reino expansivo, trono de misericordia, simbolismo de júpiter, gran arquitectura"),
+            5: ("Gevurah (Rigor)", "fuego sagrado, rubí rojo brillante, armadura de guerrero antiguo, energía intensa, chispas, simbolismo de marte"),
+            6: ("Tiferet (Belleza)", "sol dorado radiante, chakra del corazón, equilibrio perfecto, simetría divina, aura brillante, hermoso arte místico"),
+            7: ("Netzach (Victoria)", "naturaleza verde esmeralda, flores místicas floreciendo, simbolismo de venus, pasión, fuerza vital vibrante"),
+            8: ("Hod (Esplendor)", "pergaminos antiguos, geometría sagrada, luz naranja brillante, simbolismo de mercurio, intrincados caminos lógicos"),
+            9: ("Yesod (Fundamento)", "luna púrpura brillante mística, niebla etérea, reflejos de cristal, atmósfera onírica, subconsciente"),
+            10: ("Malkhut (El Reino)", "raíces antiguas brillantes, tierra física, suelo rico, enraizamiento del árbol de la vida, manifestación terrenal"),
+            11: ("Sendero Aleph", "arquetipo del tarot del loco, acantilado místico, potencial puro, fondo amarillo brillante, nuevo comienzo"),
+            12: ("Sendero Bet", "arquetipo del mago, herramientas brillantes de creación, altar místico, manipulando energía"),
+            13: ("Sendero Gimel", "la suma sacerdotisa, conocimiento oculto, luna creciente azul brillante, velo de misterios"),
+            14: ("Sendero Dalet", "la emperatriz, exuberante bosque místico, abundancia, energía divina femenina, cascadas"),
+            15: ("Sendero He", "el emperador, trono de piedra roja sólida, autoridad, fondo ardiente, poder estructurado"),
+            16: ("Sendero Vav", "el hierofante, antiguas enseñanzas místicas, llaves sagradas, símbolos esotéricos brillantes"),
+            17: ("Sendero Zain", "los amantes, llamas gemelas brillantes, unión divina perfecta, luz armoniosa"),
+            18: ("Sendero Chet", "el carro, energía mística en movimiento, superando obstáculos, armadura brillante"),
+            19: ("Sendero Tet", "fuerza, aura de león dorado brillante, poder suave, domando a la bestia"),
+            20: ("Sendero Yod", "el ermitaño, linterna solitaria brillante en la oscuridad, cima de la montaña, sabiduría interior"),
+            21: ("Sendero Kaf", "rueda de la fortuna, galaxia cósmica giratoria, destino, suerte, reloj celestial brillante"),
+            22: ("Sendero Lamed", "justicia, balanzas doradas brillantes, verdad, equilibrio cósmico, espada de luz")
         }
 
         # Obtener los atributos correspondientes al número final
         concepto, prompt_positivo = mapeo_salidas.get(suma, ("Desconocido", ""))
-        prompt_negativo = "ugly, deformed, poorly drawn, text, watermark, bad anatomy, chaotic, low resolution"
+        prompt_negativo = "feo, deformado, mal dibujado, texto, marca de agua, mala anatomía, caótico, baja resolución"
 
         return (suma, concepto, prompt_positivo, prompt_negativo)
