@@ -36,7 +36,7 @@ En la interfaz de ComfyUI, puedes encontrar el nodo de la siguiente manera:
   - *Nota Cabalística:* Si dejas el campo vacío o introduces caracteres que suman 0, el nodo te anclará al plano físico devolviendo **10 (Malkhut / El Reino)**.
 - **`CONCEPTO`** (`STRING`): El nombre del Sefirá o Sendero asociado al número (Ej: `"Keter (Corona)"`, `"Sendero Aleph"`). Útil para mostrarlo en pantalla con nodos de texto.
 - **`PROMPT_POSITIVO`** (`STRING`): Un prompt visual altamente detallado y estético, generado automáticamente en base a la energía del número resultante. Está diseñado para conectarse directamente al nodo de condicionamiento positivo de tu modelo base (ej. `CLIP Text Encode`).
-- **`PROMPT_NEGATIVO`** (`STRING`): Un prompt negativo estático y genérico diseñado para asegurar una buena anatomía y calidad de imagen en Stable Diffusion (`"ugly, deformed, poorly drawn, text, watermark, bad anatomy, chaotic, low resolution"`). Se conecta al condicionamiento negativo.
+- **`PROMPT_NEGATIVO`** (`STRING`): Un prompt negativo estático y genérico diseñado para asegurar una buena anatomía y calidad de imagen en Stable Diffusion (`"feo, deformado, mal dibujado, texto, marca de agua, mala anatomía, caótico, baja resolución"`). Se conecta al condicionamiento negativo.
 
 ## 🧠 Lógica Matemática y Reducción
 
