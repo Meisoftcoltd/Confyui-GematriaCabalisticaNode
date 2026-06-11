@@ -13,7 +13,7 @@ class GematriaHTMLAssembler:
             "required": {
                 "nombre": ("STRING", {"default": "Nombre Apellido Apellido"}),
                 "numero_cabalistico": ("INT", {"default": 11}), # NÚMERO PURO DEL PRIMER NODO
-                "concepto": ("STRING", {"default": "Sendero Aleph, El Loco"}), # CONCEPTO PURO DEL PRIMER NODO
+                "concepto": ("STRING", {"default": "Sendero Aleph"}), # (Se mantiene por compatibilidad de cables)
                 "imagen": ("IMAGE",),
                 "md1": ("STRING", {"multiline": True, "default": ""}),
                 "md2": ("STRING", {"multiline": True, "default": ""}),
@@ -44,13 +44,8 @@ class GematriaHTMLAssembler:
         # 2. PARSEO DE TEXTOS (Ignora el título principal y corta por ###)
         # ---------------------------------------------------------
         def extract_sections(md_text):
-            parts = md_text.split('###')
-            sections = []
-            for p in parts[1:]: # Ignoramos parts[0] que es el "# REPORTE VIBRACIONAL..."
-                lines = p.split('\n', 1)
-                content = lines[1].replace('**', '').strip() if len(lines) > 1 else p.strip()
-                sections.append(content)
-            return sections
+            matches = re.findall(r'###[^\n]*\n(.*?)(?=###|$)', md_text, re.DOTALL)
+            return [m.replace('**', '').strip() for m in matches]
 
         sec1 = extract_sections(md1) + [""] * 4
         sec2 = extract_sections(md2) + [""] * 4
@@ -58,33 +53,43 @@ class GematriaHTMLAssembler:
         sec4 = extract_sections(md4) + [""] * 3
 
         # ---------------------------------------------------------
-        # 3. BASE DE DATOS DEL TAROT Y SIGNOS (100% DINÁMICO)
+        # 3. BASE DE DATOS MAESTRA DEL TAROT (100% DINÁMICO POR NÚMERO)
         # ---------------------------------------------------------
-        # Formato: "Sendero": ("Letra Hebrea", "Número Tarot", "Conexión")
+        # Formato dict: NUMERO: ("Nombre Latín", "Hebreo", "Num Tarot", "Arquetipo", "Conexión")
         tarot_db = {
-            "Aleph": ("א", "0", "Kether a Chokmah"), "Bet": ("ב", "I", "Kether a Binah"),
-            "Gimel": ("ג", "II", "Kether a Tiferet"), "Dalet": ("ד", "III", "Chokmah a Binah"),
-            "He": ("ה", "IV", "Chokmah a Tiferet"), "Vav": ("ו", "V", "Chokmah a Chesed"),
-            "Zain": ("ז", "VI", "Binah a Tiferet"), "Chet": ("ח", "VII", "Binah a Gevurah"),
-            "Tet": ("ט", "VIII", "Chesed a Gevurah"), "Yod": ("י", "IX", "Chesed a Tiferet"),
-            "Kaf": ("כ", "X", "Chesed a Netzach"), "Lamed": ("ל", "XI", "Gevurah a Tiferet"),
-            "Mem": ("מ", "XII", "Gevurah a Hod"), "Nun": ("נ", "XIII", "Tiferet a Netzach"),
-            "Samej": ("ס", "XIV", "Tiferet a Yesod"), "Ayin": ("ע", "XV", "Tiferet a Hod"),
-            "Pe": ("פ", "XVI", "Netzach a Hod"), "Tzadi": ("צ", "XVII", "Netzach a Yesod"),
-            "Kof": ("ק", "XVIII", "Netzach a Malkhut"), "Resh": ("ר", "XIX", "Hod a Yesod"),
-            "Shin": ("ש", "XX", "Hod a Malkhut"), "Tav": ("ת", "XXI", "Yesod a Malkhut")
+            1: ("Aleph", "א", "0", "El Loco", "Kether a Chokmah"),
+            2: ("Bet", "ב", "I", "El Mago", "Kether a Binah"),
+            3: ("Gimel", "ג", "II", "La Sacerdotisa", "Kether a Tiferet"),
+            4: ("Dalet", "ד", "III", "La Emperatriz", "Chokmah a Binah"),
+            5: ("He", "ה", "IV", "El Emperador", "Chokmah a Tiferet"),
+            6: ("Vav", "ו", "V", "El Hierofante", "Chokmah a Chesed"),
+            7: ("Zain", "ז", "VI", "Los Amantes", "Binah a Tiferet"),
+            8: ("Chet", "ח", "VII", "El Carro", "Binah a Gevurah"),
+            9: ("Tet", "ט", "VIII", "La Fuerza", "Chesed a Gevurah"),
+            10: ("Yod", "י", "IX", "El Ermitaño", "Chesed a Tiferet"),
+            11: ("Kaf", "כ", "X", "La Rueda de la Fortuna", "Chesed a Netzach"),
+            12: ("Lamed", "ל", "XI", "La Justicia", "Gevurah a Tiferet"),
+            13: ("Mem", "מ", "XII", "El Colgado", "Gevurah a Hod"),
+            14: ("Nun", "נ", "XIII", "La Muerte", "Tiferet a Netzach"),
+            15: ("Samej", "ס", "XIV", "La Templanza", "Tiferet a Yesod"),
+            16: ("Ayin", "ע", "XV", "El Diablo", "Tiferet a Hod"),
+            17: ("Pe", "פ", "XVI", "La Torre", "Netzach a Hod"),
+            18: ("Tzadi", "צ", "XVII", "La Estrella", "Netzach a Yesod"),
+            19: ("Kof", "ק", "XVIII", "La Luna", "Netzach a Malkhut"),
+            20: ("Resh", "ר", "XIX", "El Sol", "Hod a Yesod"),
+            21: ("Shin", "ש", "XX", "El Juicio", "Hod a Malkhut"),
+            22: ("Tav", "ת", "XXI", "El Mundo", "Yesod a Malkhut")
         }
 
-        # Extraer Sendero y Arquetipo directo del input del nodo base (ej. "Sendero Aleph, El loco")
-        concept_parts = [p.strip() for p in concepto.split(',')]
-        sendero_str = concept_parts[0] if len(concept_parts) > 0 else "Aleph"
-        arquetipo_str = concept_parts[1].title() if len(concept_parts) > 1 else "El Loco"
-        sendero_name = sendero_str.replace("Sendero", "").replace("sendero", "").strip().title()
+        # Extraemos todos los datos usando el número cabalístico exacto (1-22)
+        tarot_data = tarot_db.get(numero_cabalistico, ("Desconocido", "-", "-", "Desconocido", "-"))
+        sendero_name = tarot_data[0]
+        letra_char = tarot_data[1]
+        num_tarot = tarot_data[2]
+        arquetipo_str = tarot_data[3]
+        conexion = tarot_data[4]
 
-        # Buscar en DB
-        letra, num_tarot, conexion = tarot_db.get(sendero_name, ("-", "-", "-"))
-
-        # Conversor simple a romanos para el número maestro
+        # Conversor simple a romanos para el número vibracional de la sección 1
         def to_roman(n):
             romans = {11: 'XI', 22: 'XXII', 33: 'XXXIII'}
             return romans.get(n, str(n))
@@ -121,19 +126,23 @@ class GematriaHTMLAssembler:
         html = html.replace("{{NOMBRE}}", nombre)
         html = html.replace("{{IMAGEN_CARTA_BASE64}}", imagen_base64)
 
+        # Datos del Tarot (Inyectados directamente de la DB Python)
         html = html.replace("{{NUMERO_GRANDE}}", str(numero_cabalistico))
         html = html.replace("{{NUMERO_ROMANO}}", to_roman(numero_cabalistico))
         html = html.replace("{{ETIQUETA_NUMERO}}", f"Frecuencia · {numero_cabalistico}")
         html = html.replace("{{ETIQUETA_SENDERO}}", f"Sendero {sendero_name}")
         html = html.replace("{{ETIQUETA_ARQUETIPO}}", arquetipo_str)
-        html = html.replace("{{NOMBRE_LETRA_HEBREA}}", letra)
+        html = html.replace("{{NOMBRE_LETRA_LATIN}}", sendero_name)
+        html = html.replace("{{LETRA_HEBREA_CHAR}}", letra_char)
         html = html.replace("{{NUMERO_SENDERO}}", num_tarot)
         html = html.replace("{{NOMBRE_ARQUETIPO}}", arquetipo_str)
         html = html.replace("{{CONEXION_SEFIROT}}", conexion)
 
+        # Signos
         for tag, valor in signos.items():
             html = html.replace(tag, valor)
 
+        # Textos IA
         html = html.replace("{{TEXTO_SEC_1}}", sec1[0])
         html = html.replace("{{TEXTO_SEC_2}}", sec1[1])
         html = html.replace("{{TEXTO_SEC_3}}", sec1[2])
