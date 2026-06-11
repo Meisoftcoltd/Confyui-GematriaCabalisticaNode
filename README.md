@@ -6,6 +6,11 @@ Es una herramienta ideal para crear arte generativo místico, lecturas de tarot 
 
 ## 🚀 Instalación
 
+> **⚠️ ACTUALIZACIÓN IMPORTANTE (v2.0):**
+> El nodo *Ensamblador HTML Gematría* ahora es 100% dinámico y no depende del LLM para extraer datos precisos. Para que funcione, **debes actualizar tu flujo de ComfyUI conectando dos nuevos cables**:
+> 1. Conecta la salida `NUMERO` (del nodo Gematría Cabalística) a la entrada `numero_cabalistico`.
+> 2. Conecta la salida `CONCEPTO` a la entrada `concepto`.
+
 Este nodo ha sido diseñado para ser **100% Plug & Play**. Utiliza únicamente la librería estándar de Python (`unicodedata` y `re`), por lo que **no necesitas instalar dependencias extra con pip**.
 
 1. Abre tu terminal o línea de comandos.
