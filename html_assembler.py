@@ -94,8 +94,12 @@ class GematriaHTMLAssembler:
             etiqueta_sendero = f"Sefirá {sendero_name}"
             etiqueta_carta = f"SEFIRÁ {sendero_name.upper()}"
         else:
-            etiqueta_sendero = f"{letra_char} · {sendero_name} · Sendero {sendero_name}"
-            etiqueta_carta = f"{sendero_name.upper()} <span class=\"text-gold-500/50 mx-0.5\">•</span> SENDERO {sendero_name.upper()}"
+            # Portada: Muestra exactamente "ז - Sendero Zain"
+            etiqueta_sendero = f"{letra_char} - Sendero {sendero_name}"
+
+            # Título de la carta: Como el HTML ya pone la letra hebrea gigante,
+            # solo mandamos el texto para que al juntarse se lea "ז SENDERO ZAIN"
+            etiqueta_carta = f"SENDERO {sendero_name.upper()}"
 
         # Conversor simple a romanos para el número vibracional de la sección 1
         def to_roman(n):
