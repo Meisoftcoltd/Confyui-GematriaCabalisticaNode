@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reporte Vibracional - {{NOMBRE}}</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Cinzel (Místico) y Lora (Cuerpo) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
     <script>
@@ -139,7 +136,6 @@
         body.light-theme #cover .cover-border-2 { border-color: rgba(160,100,10,0.15) !important; }
         
         /* ── CORRECCIONES DE LEGIBILIDAD PORTADA (MODO CLARO) ── */
-        /* 1. Oscurecer textos y quitar sombras difusas */
         body.light-theme #cover .text-white { color: #2d1a11 !important; text-shadow: none !important; }
         body.light-theme #cover .text-gold-300\/95 { color: #703813 !important; text-shadow: none !important; }
         body.light-theme #cover .text-gold-500\/80 { color: #945416 !important; }
@@ -147,25 +143,13 @@
         body.light-theme #cover .text-gold-500 { color: #703813 !important; text-shadow: none !important; }
         body.light-theme #cover .text-gold-700 { color: #4e230f !important; }
         body.light-theme #cover .text-gold-600\/50 { color: #703813 !important; }
-        
-        /* 2. Oscurecer gradientes de la línea central decorativa */
         body.light-theme #cover .to-gold-400\/70 { --tw-gradient-to: rgba(112, 56, 19, 0.7) !important; }
-        
-        /* 3. Transformar los oros del mandala y vectores a un bronce oscuro mediante filtro */
-        body.light-theme #cover svg {
-            filter: brightness(0.3) contrast(1.5) sepia(1) hue-rotate(-20deg) saturate(2) !important;
-        }
-        
-        /* 4. Reducir drásticamente las manchas de luz para que no ensucien el fondo beige */
-        body.light-theme #cover .pulse-glow {
-            opacity: 0.1 !important;
-            mix-blend-mode: multiply;
-        }
+        body.light-theme #cover svg { filter: brightness(0.3) contrast(1.5) sepia(1) hue-rotate(-20deg) saturate(2) !important; }
+        body.light-theme #cover .pulse-glow { opacity: 0.1 !important; mix-blend-mode: multiply; }
     </style>
 </head>
 <body class="bg-cosmic-950 text-slate-200 font-serif selection:bg-gold-300 selection:text-gold-950 bg-noise transition-colors duration-500">
 
-    <!-- ── BARRA DE HERRAMIENTAS FLOTANTE ── -->
     <div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
         <button onclick="toggleTheme()" class="bg-slate-800 hover:bg-slate-700 text-gold-400 border border-gold-500/30 rounded-full p-3 shadow-[0_0_15px_rgba(212,149,36,0.2)] transition duration-300 flex items-center justify-center" title="Alternar Luz/Oscuridad">
             <i data-lucide="sun" id="theme-icon" class="w-5 h-5"></i>
@@ -176,114 +160,66 @@
         </button>
     </div>
 
-    <!-- ══════════════════════════════════════════════
-         PORTADA ANIMADA (INTEGRADA)
-    ══════════════════════════════════════════════ -->
     <section id="cover">
-        <!-- Ambient glows -->
-        <div class="pulse-glow absolute inset-0 pointer-events-none"
-             style="background:radial-gradient(ellipse 60% 55% at 50% 50%, rgba(100,40,10,0.55) 0%, transparent 70%);"></div>
-        <div class="pulse-glow absolute pointer-events-none"
-             style="width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%);
-                    background:radial-gradient(circle, rgba(180,100,0,0.12) 0%, transparent 65%);
-                    animation-delay:2s;"></div>
+        <div class="pulse-glow absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 55% at 50% 50%, rgba(100,40,10,0.55) 0%, transparent 70%);"></div>
+        <div class="pulse-glow absolute pointer-events-none" style="width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%); background:radial-gradient(circle, rgba(180,100,0,0.12) 0%, transparent 65%); animation-delay:2s;"></div>
 
-        <!-- Decorative borders -->
         <div class="cover-border rounded-sm"></div>
         <div class="cover-border-2 rounded-sm"></div>
 
-        <!-- Corner ornaments -->
-        <svg class="absolute top-5 left-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40">
-            <path d="M2 2 L14 2 M2 2 L2 14" stroke-width="1.2"/>
-            <circle cx="2" cy="2" r="2" fill="currentColor" stroke="none" opacity="0.6"/>
-        </svg>
-        <svg class="absolute top-5 right-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40">
-            <path d="M38 2 L26 2 M38 2 L38 14" stroke-width="1.2"/>
-            <circle cx="38" cy="2" r="2" fill="currentColor" stroke="none" opacity="0.6"/>
-        </svg>
-        <svg class="absolute bottom-5 left-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40">
-            <path d="M2 38 L14 38 M2 38 L2 26" stroke-width="1.2"/>
-            <circle cx="2" cy="38" r="2" fill="currentColor" stroke="none" opacity="0.6"/>
-        </svg>
-        <svg class="absolute bottom-5 right-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40">
-            <path d="M38 38 L26 38 M38 38 L38 26" stroke-width="1.2"/>
-            <circle cx="38" cy="38" r="2" fill="currentColor" stroke="none" opacity="0.6"/>
-        </svg>
+        <svg class="absolute top-5 left-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40"><path d="M2 2 L14 2 M2 2 L2 14" stroke-width="1.2"/><circle cx="2" cy="2" r="2" fill="currentColor" stroke="none" opacity="0.6"/></svg>
+        <svg class="absolute top-5 right-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40"><path d="M38 2 L26 2 M38 2 L38 14" stroke-width="1.2"/><circle cx="38" cy="2" r="2" fill="currentColor" stroke="none" opacity="0.6"/></svg>
+        <svg class="absolute bottom-5 left-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40"><path d="M2 38 L14 38 M2 38 L2 26" stroke-width="1.2"/><circle cx="2" cy="38" r="2" fill="currentColor" stroke="none" opacity="0.6"/></svg>
+        <svg class="absolute bottom-5 right-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40"><path d="M38 38 L26 38 M38 38 L38 26" stroke-width="1.2"/><circle cx="38" cy="38" r="2" fill="currentColor" stroke="none" opacity="0.6"/></svg>
 
-        <!-- ── MANDALA SVG ── -->
         <div class="absolute" style="width:520px;height:520px;top:50%;left:50%;transform:translate(-50%,-50%);">
-            <!-- Outer spinning ring -->
             <svg class="spin-slow absolute inset-0 w-full h-full" viewBox="0 0 520 520" fill="none">
                 <circle cx="260" cy="260" r="255" stroke="rgba(212,149,36,0.15)" stroke-width="1"/>
                 <circle cx="260" cy="260" r="255" stroke="rgba(212,149,36,0.25)" stroke-width="0.5" stroke-dasharray="6 18" />
                 <g stroke="rgba(212,149,36,0.4)" stroke-width="1">
-                    <line x1="260" y1="4"   x2="260" y2="20"/>
-                    <line x1="260" y1="500" x2="260" y2="516"/>
-                    <line x1="4"   y1="260" x2="20"  y2="260"/>
-                    <line x1="500" y1="260" x2="516" y2="260"/>
-                    <line x1="77"  y1="77"  x2="88"  y2="88"/>
-                    <line x1="432" y1="77"  x2="443" y2="88"/>
-                    <line x1="77"  y1="443" x2="88"  y2="432"/>
-                    <line x1="432" y1="443" x2="443" y2="432"/>
-                    <line x1="168" y1="9"   x2="174" y2="23"/>
-                    <line x1="352" y1="9"   x2="346" y2="23"/>
-                    <line x1="9"   y1="168" x2="23"  y2="174"/>
-                    <line x1="9"   y1="352" x2="23"  y2="346"/>
+                    <line x1="260" y1="4" x2="260" y2="20"/><line x1="260" y1="500" x2="260" y2="516"/><line x1="4" y1="260" x2="20" y2="260"/><line x1="500" y1="260" x2="516" y2="260"/>
+                    <line x1="77" y1="77" x2="88" y2="88"/><line x1="432" y1="77" x2="443" y2="88"/><line x1="77" y1="443" x2="88" y2="432"/><line x1="432" y1="443" x2="443" y2="432"/>
+                    <line x1="168" y1="9" x2="174" y2="23"/><line x1="352" y1="9" x2="346" y2="23"/><line x1="9" y1="168" x2="23" y2="174"/><line x1="9" y1="352" x2="23" y2="346"/>
                 </g>
                 <polygon points="260,80 310,170 410,170 360,260 410,350 310,350 260,440 210,350 110,350 160,260 110,170 210,170" fill="none" stroke="rgba(212,149,36,0.12)" stroke-width="1"/>
             </svg>
-
-            <!-- Mid spinning ring (reverse) -->
             <svg class="spin-med absolute inset-0 w-full h-full" viewBox="0 0 520 520" fill="none">
                 <circle cx="260" cy="260" r="210" stroke="rgba(212,149,36,0.18)" stroke-width="0.8" stroke-dasharray="4 12"/>
                 <polygon points="260,100 316,200 416,200 360,260 416,320 316,320 260,420 204,320 104,320 160,260 104,200 204,200" fill="none" stroke="rgba(212,149,36,0.08)" stroke-width="1.2"/>
                 <polygon points="260,120 370,300 150,300" fill="none" stroke="rgba(212,149,36,0.2)" stroke-width="0.8"/>
                 <polygon points="260,400 150,220 370,220" fill="none" stroke="rgba(212,149,36,0.2)" stroke-width="0.8"/>
             </svg>
-
-            <!-- Inner fast ring -->
             <svg class="spin-fast absolute inset-0 w-full h-full" viewBox="0 0 520 520" fill="none">
                 <circle cx="260" cy="260" r="148" stroke="rgba(212,149,36,0.22)" stroke-width="0.7" stroke-dasharray="3 9"/>
                 <g stroke="rgba(212,149,36,0.30)" stroke-width="0.7">
-                    <line x1="260" y1="112" x2="260" y2="148"/>
-                    <line x1="260" y1="372" x2="260" y2="408"/>
-                    <line x1="112" y1="260" x2="148" y2="260"/>
-                    <line x1="372" y1="260" x2="408" y2="260"/>
-                    <line x1="155" y1="155" x2="181" y2="181"/>
-                    <line x1="339" y1="155" x2="365" y2="181"/>
-                    <line x1="155" y1="365" x2="181" y2="339"/>
-                    <line x1="339" y1="365" x2="365" y2="339"/>
+                    <line x1="260" y1="112" x2="260" y2="148"/><line x1="260" y1="372" x2="260" y2="408"/><line x1="112" y1="260" x2="148" y2="260"/><line x1="372" y1="260" x2="408" y2="260"/>
+                    <line x1="155" y1="155" x2="181" y2="181"/><line x1="339" y1="155" x2="365" y2="181"/><line x1="155" y1="365" x2="181" y2="339"/><line x1="339" y1="365" x2="365" y2="339"/>
                 </g>
             </svg>
-
-            <!-- Static decorative circles (Flower of Life hint) -->
             <svg class="absolute inset-0 w-full h-full" viewBox="0 0 520 520" fill="none">
-                <circle cx="260" cy="260" r="90"  stroke="rgba(212,149,36,0.20)" stroke-width="0.6"/>
-                <circle cx="260" cy="170" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
-                <circle cx="260" cy="350" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
-                <circle cx="182" cy="215" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
-                <circle cx="338" cy="215" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
-                <circle cx="182" cy="305" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
-                <circle cx="338" cy="305" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="260" cy="260" r="90" stroke="rgba(212,149,36,0.20)" stroke-width="0.6"/>
+                <circle cx="260" cy="170" r="90" stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="260" cy="350" r="90" stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="182" cy="215" r="90" stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="338" cy="215" r="90" stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="182" cy="305" r="90" stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="338" cy="305" r="90" stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
                 <ellipse cx="260" cy="260" rx="52" ry="28" stroke="rgba(212,149,36,0.50)" stroke-width="0.8"/>
-                <circle  cx="260" cy="260" r="18" fill="rgba(212,149,36,0.08)" stroke="rgba(212,149,36,0.45)" stroke-width="0.8"/>
-                <circle  cx="260" cy="260" r="7" fill="rgba(212,149,36,0.60)" stroke="none"/>
+                <circle cx="260" cy="260" r="18" fill="rgba(212,149,36,0.08)" stroke="rgba(212,149,36,0.45)" stroke-width="0.8"/>
+                <circle cx="260" cy="260" r="7" fill="rgba(212,149,36,0.60)" stroke="none"/>
             </svg>
-
-            <!-- 8 small diamond ornaments on outer ring -->
             <svg class="absolute inset-0 w-full h-full" viewBox="0 0 520 520" fill="rgba(212,149,36,0.55)">
-                <polygon points="260,9  265,16  260,23  255,16"/>
+                <polygon points="260,9 265,16 260,23 255,16"/>
                 <polygon points="260,497 265,504 260,511 255,504"/>
-                <polygon points="9,260  16,265  23,260  16,255"/>
+                <polygon points="9,260 16,265 23,260 16,255"/>
                 <polygon points="497,260 504,265 511,260 504,255"/>
-                <polygon points="83,83   89,90   96,83   89,76"/>
-                <polygon points="424,83  430,90  437,83  430,76"/>
-                <polygon points="83,437  89,444  96,437  89,430"/>
+                <polygon points="83,83 89,90 96,83 89,76"/>
+                <polygon points="424,83 430,90 437,83 430,76"/>
+                <polygon points="83,437 89,444 96,437 89,430"/>
                 <polygon points="424,437 430,444 437,437 430,430"/>
             </svg>
         </div>
 
-        <!-- ── TEXTO DE PORTADA ── -->
         <div class="relative z-10 flex flex-col items-center text-center px-8 space-y-0">
             <p class="fade-up font-display text-xs tracking-[0.55em] text-gold-500/80 uppercase mb-6">
                 Análisis de Estructura Cósmica
@@ -342,10 +278,8 @@
         </div>
     </section>
 
-    <!-- ── CONTENEDOR PRINCIPAL DEL REPORTE TEXTUAL ── -->
     <div id="document-root" class="max-w-4xl mx-auto px-6 py-12 md:py-20 space-y-16">
 
-        <!-- 1. CONTENEDOR ENERGÉTICO -->
         <section class="grid md:grid-cols-12 gap-8 items-center page-break">
             <div class="md:col-span-8 bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow">
                 <div class="flex items-center gap-3">
@@ -370,29 +304,30 @@
             </div>
         </section>
 
-        <!-- 2. EL SENDERO Y EL ARQUETIPO -->
         <section class="border-t border-gold-500/10 pt-12 page-break">
             <div class="grid md:grid-cols-12 gap-8 items-center">
+                
                 <div class="md:col-span-4 flex justify-center order-last md:order-first">
                     <div class="relative w-56 h-80 border-2 border-gold-500/30 rounded-xl bg-slate-900/50 p-4 shadow-2xl flex flex-col justify-between overflow-hidden card-shadow">
                         <div class="absolute -right-12 -top-12 w-32 h-32 bg-gold-400/5 rounded-full blur-2xl"></div>
-                        <div class="flex justify-between items-center border-b border-gold-500/10 pb-2">
+                        
+                        <div class="flex justify-between items-center border-b border-gold-500/10 pb-2 z-10">
                             <span class="font-display text-gold-400 text-sm">{{NOMBRE_LETRA_HEBREA}}</span>
                             <span class="font-display text-gold-400 text-sm">{{NUMERO_SENDERO}}</span>
                         </div>
-                        <div class="my-6 flex flex-col items-center justify-center flex-grow">
-                            <svg class="w-24 h-24 text-gold-400/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 21h18M3 21l6-12 4 6 5-10 3 6M19 5a2 2 0 11-4 0 2 2 0 014 0z" />
-                                <circle cx="8" cy="6" r="2" stroke-width="1"/>
-                                <path d="M8 1v2M8 10v1M4 4l1.5 1.5M11 9l.5.5" stroke-width="1"/>
-                            </svg>
-                            <span class="font-display text-xs tracking-widest text-gold-500 mt-4 uppercase">{{NOMBRE_ARQUETIPO}}</span>
+                        
+                        <div class="my-3 relative w-full flex-grow rounded-lg overflow-hidden border border-gold-500/20 shadow-inner z-10 bg-slate-800/50">
+                            <img src="{{IMAGEN_CARTA_BASE64}}" alt="Arquetipo Generado" class="absolute inset-0 w-full h-full object-cover filter saturate-50 hover:saturate-100 transition duration-500">
                         </div>
-                        <div class="border-t border-gold-500/10 pt-2 text-center">
-                            <span class="font-display text-xs tracking-[0.3em] text-gold-400 uppercase">{{CONEXION_SEFIROT}}</span>
+                        
+                        <span class="font-display text-xs tracking-widest text-gold-500 mt-1 mb-2 text-center uppercase z-10">{{NOMBRE_ARQUETIPO}}</span>
+                        
+                        <div class="border-t border-gold-500/10 pt-2 text-center z-10">
+                            <span class="font-display text-[0.6rem] tracking-[0.3em] text-gold-400 uppercase">{{CONEXION_SEFIROT}}</span>
                         </div>
                     </div>
                 </div>
+
                 <div class="md:col-span-8 bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow">
                     <div class="flex items-center gap-3">
                         <i data-lucide="compass" class="w-6 h-6 text-gold-400"></i>
@@ -407,16 +342,14 @@
             </div>
         </section>
 
-        <!-- 3 Y 4. LUZ Y SOMBRAS -->
         <section class="grid md:grid-cols-2 gap-8 border-t border-gold-500/10 pt-12 page-break">
-            <!-- TARJETA POSITIVA -->
             <div class="bg-gradient-to-br from-amber-500/10 to-yellow-600/5 border border-yellow-500/30 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl card-shadow">
                 <div class="flex items-center gap-3">
                     <div class="p-2 bg-yellow-400/10 rounded-lg text-yellow-400">
                         <i data-lucide="sun" class="w-6 h-6"></i>
                     </div>
                     <h3 class="font-display text-lg md:text-xl text-yellow-300 uppercase tracking-wider">
-                        3. La Luz y Los Talentos Ocultos (Análisis del Prompt Positivo):
+                        3. La Luz y Los Talentos Ocultos:
                     </h3>
                 </div>
                 <p class="text-sm text-slate-300 leading-relaxed text-justify">
@@ -424,14 +357,13 @@
                 </p>
             </div>
 
-            <!-- TARJETA NEGATIVA -->
             <div class="bg-gradient-to-br from-purple-950/20 to-slate-900/40 border border-purple-500/20 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl card-shadow">
                 <div class="flex items-center gap-3">
                     <div class="p-2 bg-purple-500/10 rounded-lg text-purple-400">
                         <i data-lucide="moon" class="w-6 h-6"></i>
                     </div>
                     <h3 class="font-display text-lg md:text-xl text-purple-300 uppercase tracking-wider">
-                        4. Las Klipot y El Sabotaje (Análisis del Prompt Negativo):
+                        4. Las Klipot y El Sabotaje:
                     </h3>
                 </div>
                 <p class="text-sm text-slate-300 leading-relaxed text-justify">
@@ -440,7 +372,6 @@
             </div>
         </section>
 
-        <!-- 5. MAPEO -->
         <section class="border-t border-gold-500/10 pt-12 page-break">
             <div class="text-center mb-8">
                 <i data-lucide="activity" class="w-8 h-8 text-gold-400 mx-auto mb-2"></i>
@@ -477,9 +408,7 @@
             </div>
         </section>
 
-        <!-- 6, 7 y 8 -->
         <section class="border-t border-gold-500/10 pt-12 space-y-12">
-            
             <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
                 <div class="flex items-center gap-3">
                     <span class="font-display text-2xl text-gold-400">6.</span>
@@ -517,9 +446,7 @@
             </div>
         </section>
 
-        <!-- 9, 10 y 11 -->
         <section class="border-t border-gold-500/10 pt-12 space-y-12">
-            
             <div class="bg-gradient-to-r from-red-950/20 via-slate-900/30 to-red-950/10 border border-red-500/20 p-6 md:p-8 rounded-xl space-y-3 shadow-lg card-shadow page-break">
                 <h3 class="font-display text-lg md:text-xl text-red-300 uppercase tracking-wider flex items-center gap-2">
                     <i data-lucide="shield-alert" class="w-5 h-5 text-red-400"></i>
@@ -555,7 +482,6 @@
             </div>
         </section>
 
-        <!-- 12. EL TIKÚN -->
         <section class="border-t border-gold-500/10 pt-12 page-break">
             <div class="bg-gradient-to-br from-gold-950/40 via-slate-900/50 to-gold-950/20 border-2 border-gold-500/30 rounded-3xl p-8 md:p-10 space-y-6 relative overflow-hidden shadow-2xl card-shadow">
                 <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-gold-400/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -574,9 +500,7 @@
             </div>
         </section>
 
-        <!-- VEREDICTO FINAL -->
         <footer class="border-t-2 border-double border-gold-500/30 pt-16 space-y-12 page-break">
-            
             <div class="text-center">
                 <p class="font-display text-gold-400 text-xs tracking-[0.5em] uppercase mb-1">Cierre Hermético</p>
                 <h2 class="font-display text-3xl text-white font-extrabold tracking-widest">
@@ -616,7 +540,6 @@
                 </div>
             </div>
 
-            <!-- Firma de Cierre -->
             <div class="flex flex-col items-center justify-center pt-8 page-break">
                 <svg class="w-12 h-12 text-gold-500/60 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-11.314l.707.707m11.314 11.314l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
@@ -624,7 +547,6 @@
                 <p class="text-2xl md:text-4xl font-display font-black text-gold-500 tracking-[0.2em] uppercase mt-2 drop-shadow-lg">Elara Kairos</p>
             </div>
         </footer>
-
     </div>
 
     <script>
