@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Vibracional - {{NOMBRE}}</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Cinzel (Místico) y Lora (Cuerpo) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Lora', 'serif'],
+                        display: ['Cinzel', 'serif'],
+                    },
+                    colors: {
+                        gold: {
+                            50: '#fbf8eb', 100: '#f4ebb6', 200: '#edd177',
+                            300: '#e3b442', 400: '#d49524', 500: '#b8751b',
+                            600: '#945416', 700: '#703813', 800: '#4e230f',
+                            900: '#32140a',
+                        },
+                        cosmic: {
+                            950: '#07070d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Efecto de ruido de fondo sutil para el estilo místico */
+        .bg-noise {
+            background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        /* ── ANIMACIONES DE LA PORTADA ── */
+        .spin-slow  { animation: spin  90s linear infinite; }
+        .spin-med   { animation: spin  45s linear infinite reverse; }
+        .spin-fast  { animation: spin  20s linear infinite; }
+        .pulse-glow { animation: pulseGlow 4s ease-in-out infinite; }
+        .fade-up    { animation: fadeUp 1.2s ease-out both; }
+        .fade-up-2  { animation: fadeUp 1.2s ease-out 0.3s both; }
+        .fade-up-3  { animation: fadeUp 1.2s ease-out 0.6s both; }
+        .fade-up-4  { animation: fadeUp 1.2s ease-out 0.9s both; }
+
+        @keyframes spin       { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulseGlow  { 0%,100% { opacity:.5; filter:blur(60px); } 50% { opacity:.9; filter:blur(80px); } }
+        @keyframes fadeUp     { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes scrollBounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(6px); } }
+        .scroll-bounce { animation: scrollBounce 2s ease-in-out infinite; }
+
+        /* ── ESTILOS DE PORTADA ── */
+        #cover {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background-color: #07070d;
+        }
+        #cover .cover-border {
+            position: absolute; inset: 16px;
+            border: 1px solid rgba(212,149,36,0.25);
+            pointer-events: none;
+        }
+        #cover .cover-border-2 {
+            position: absolute; inset: 26px;
+            border: 1px solid rgba(212,149,36,0.10);
+            pointer-events: none;
+        }
+
+        /* ── ESTILOS FORZADOS PARA EXPORTACIÓN A PDF ── */
+        @media print {
+            @page {
+                margin: 1cm;
+                size: A4 portrait;
+            }
+            html, body {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                background-color: #07070d !important;
+                color: #e2e8f0 !important;
+            }
+            .no-print { display: none !important; }
+            .page-break {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .card-shadow { box-shadow: none !important; border: 1px solid rgba(212,149,36,0.3) !important; }
+            
+            /* Ajustes de portada para impresión */
+            #cover { page-break-after: always; min-height:100vh; height:100vh; }
+            .spin-slow, .spin-med, .spin-fast { animation: none !important; }
+            .pulse-glow { animation: none !important; opacity: 0.6 !important; }
+        }
+        
+        /* ── TEMA CLARO (LIGHT THEME) ── */
+        body.light-theme {
+            background-color: #f8fafc !important;
+            color: #334155 !important;
+        }
+        body.light-theme .text-white { color: #0f172a !important; }
+        body.light-theme .text-slate-200 { color: #1e293b !important; }
+        body.light-theme .text-slate-300 { color: #334155 !important; }
+        body.light-theme .text-slate-400 { color: #475569 !important; }
+        body.light-theme .text-gold-400 { color: #b8751b !important; }
+        body.light-theme .text-gold-300 { color: #d49524 !important; }
+        body.light-theme .text-red-300 { color: #991b1b !important; }
+        body.light-theme .bg-slate-900\/20,
+        body.light-theme .bg-slate-900\/30,
+        body.light-theme .bg-slate-900\/40,
+        body.light-theme .bg-slate-900\/50 { background-color: #ffffff !important; }
+        body.light-theme .bg-gradient-to-r,
+        body.light-theme .bg-gradient-to-br {
+            background-image: none !important;
+            background-color: #ffffff !important;
+        }
+        body.light-theme .border-gold-500\/20 { border-color: rgba(212, 149, 36, 0.4) !important; }
+        body.light-theme .border-red-500\/20 { border-color: rgba(220, 38, 38, 0.4) !important; }
+        body.light-theme .border-yellow-500\/30 { border-color: rgba(234, 179, 8, 0.4) !important; }
+        body.light-theme .border-purple-500\/20 { border-color: rgba(168, 85, 247, 0.4) !important; }
+        
+        /* Tema Claro en Portada */
+        body.light-theme #cover { background-color: #f5efe0 !important; }
+        body.light-theme #cover .cover-border { border-color: rgba(160,100,10,0.35) !important; }
+        body.light-theme #cover .cover-border-2 { border-color: rgba(160,100,10,0.15) !important; }
+        
+        /* ── CORRECCIONES DE LEGIBILIDAD PORTADA (MODO CLARO) ── */
+        /* 1. Oscurecer textos y quitar sombras difusas */
+        body.light-theme #cover .text-white { color: #2d1a11 !important; text-shadow: none !important; }
+        body.light-theme #cover .text-gold-300\/95 { color: #703813 !important; text-shadow: none !important; }
+        body.light-theme #cover .text-gold-500\/80 { color: #945416 !important; }
+        body.light-theme #cover .text-gold-600\/70 { color: #703813 !important; border-color: rgba(112,56,19,0.3) !important; background-color: rgba(255,255,255,0.5); }
+        body.light-theme #cover .text-gold-500 { color: #703813 !important; text-shadow: none !important; }
+        body.light-theme #cover .text-gold-700 { color: #4e230f !important; }
+        body.light-theme #cover .text-gold-600\/50 { color: #703813 !important; }
+        
+        /* 2. Oscurecer gradientes de la línea central decorativa */
+        body.light-theme #cover .to-gold-400\/70 { --tw-gradient-to: rgba(112, 56, 19, 0.7) !important; }
+        
+        /* 3. Transformar los oros del mandala y vectores a un bronce oscuro mediante filtro */
+        body.light-theme #cover svg {
+            filter: brightness(0.3) contrast(1.5) sepia(1) hue-rotate(-20deg) saturate(2) !important;
+        }
+        
+        /* 4. Reducir drásticamente las manchas de luz para que no ensucien el fondo beige */
+        body.light-theme #cover .pulse-glow {
+            opacity: 0.1 !important;
+            mix-blend-mode: multiply;
+        }
+    </style>
+</head>
+<body class="bg-cosmic-950 text-slate-200 font-serif selection:bg-gold-300 selection:text-gold-950 bg-noise transition-colors duration-500">
+
+    <!-- ── BARRA DE HERRAMIENTAS FLOTANTE ── -->
+    <div class="fixed top-4 right-4 z-50 flex gap-2 no-print">
+        <button onclick="toggleTheme()" class="bg-slate-800 hover:bg-slate-700 text-gold-400 border border-gold-500/30 rounded-full p-3 shadow-[0_0_15px_rgba(212,149,36,0.2)] transition duration-300 flex items-center justify-center" title="Alternar Luz/Oscuridad">
+            <i data-lucide="sun" id="theme-icon" class="w-5 h-5"></i>
+        </button>
+        <button onclick="window.print()" class="bg-gold-600 hover:bg-gold-500 text-slate-950 rounded-full px-5 py-3 shadow-[0_0_15px_rgba(212,149,36,0.5)] transition duration-300 flex items-center gap-2 font-bold" title="Guardar como PDF (Activa 'Gráficos de fondo')">
+            <i data-lucide="printer" class="w-5 h-5"></i>
+            <span class="text-sm font-sans pr-2">Guardar PDF Místico</span>
+        </button>
+    </div>
+
+    <!-- ══════════════════════════════════════════════
+         PORTADA ANIMADA (INTEGRADA)
+    ══════════════════════════════════════════════ -->
+    <section id="cover">
+        <!-- Ambient glows -->
+        <div class="pulse-glow absolute inset-0 pointer-events-none"
+             style="background:radial-gradient(ellipse 60% 55% at 50% 50%, rgba(100,40,10,0.55) 0%, transparent 70%);"></div>
+        <div class="pulse-glow absolute pointer-events-none"
+             style="width:500px;height:500px;top:50%;left:50%;transform:translate(-50%,-50%);
+                    background:radial-gradient(circle, rgba(180,100,0,0.12) 0%, transparent 65%);
+                    animation-delay:2s;"></div>
+
+        <!-- Decorative borders -->
+        <div class="cover-border rounded-sm"></div>
+        <div class="cover-border-2 rounded-sm"></div>
+
+        <!-- Corner ornaments -->
+        <svg class="absolute top-5 left-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40">
+            <path d="M2 2 L14 2 M2 2 L2 14" stroke-width="1.2"/>
+            <circle cx="2" cy="2" r="2" fill="currentColor" stroke="none" opacity="0.6"/>
+        </svg>
+        <svg class="absolute top-5 right-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40">
+            <path d="M38 2 L26 2 M38 2 L38 14" stroke-width="1.2"/>
+            <circle cx="38" cy="2" r="2" fill="currentColor" stroke="none" opacity="0.6"/>
+        </svg>
+        <svg class="absolute bottom-5 left-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40">
+            <path d="M2 38 L14 38 M2 38 L2 26" stroke-width="1.2"/>
+            <circle cx="2" cy="38" r="2" fill="currentColor" stroke="none" opacity="0.6"/>
+        </svg>
+        <svg class="absolute bottom-5 right-5 w-10 h-10 text-gold-600/40" fill="none" stroke="currentColor" viewBox="0 0 40 40">
+            <path d="M38 38 L26 38 M38 38 L38 26" stroke-width="1.2"/>
+            <circle cx="38" cy="38" r="2" fill="currentColor" stroke="none" opacity="0.6"/>
+        </svg>
+
+        <!-- ── MANDALA SVG ── -->
+        <div class="absolute" style="width:520px;height:520px;top:50%;left:50%;transform:translate(-50%,-50%);">
+            <!-- Outer spinning ring -->
+            <svg class="spin-slow absolute inset-0 w-full h-full" viewBox="0 0 520 520" fill="none">
+                <circle cx="260" cy="260" r="255" stroke="rgba(212,149,36,0.15)" stroke-width="1"/>
+                <circle cx="260" cy="260" r="255" stroke="rgba(212,149,36,0.25)" stroke-width="0.5" stroke-dasharray="6 18" />
+                <g stroke="rgba(212,149,36,0.4)" stroke-width="1">
+                    <line x1="260" y1="4"   x2="260" y2="20"/>
+                    <line x1="260" y1="500" x2="260" y2="516"/>
+                    <line x1="4"   y1="260" x2="20"  y2="260"/>
+                    <line x1="500" y1="260" x2="516" y2="260"/>
+                    <line x1="77"  y1="77"  x2="88"  y2="88"/>
+                    <line x1="432" y1="77"  x2="443" y2="88"/>
+                    <line x1="77"  y1="443" x2="88"  y2="432"/>
+                    <line x1="432" y1="443" x2="443" y2="432"/>
+                    <line x1="168" y1="9"   x2="174" y2="23"/>
+                    <line x1="352" y1="9"   x2="346" y2="23"/>
+                    <line x1="9"   y1="168" x2="23"  y2="174"/>
+                    <line x1="9"   y1="352" x2="23"  y2="346"/>
+                </g>
+                <polygon points="260,80 310,170 410,170 360,260 410,350 310,350 260,440 210,350 110,350 160,260 110,170 210,170" fill="none" stroke="rgba(212,149,36,0.12)" stroke-width="1"/>
+            </svg>
+
+            <!-- Mid spinning ring (reverse) -->
+            <svg class="spin-med absolute inset-0 w-full h-full" viewBox="0 0 520 520" fill="none">
+                <circle cx="260" cy="260" r="210" stroke="rgba(212,149,36,0.18)" stroke-width="0.8" stroke-dasharray="4 12"/>
+                <polygon points="260,100 316,200 416,200 360,260 416,320 316,320 260,420 204,320 104,320 160,260 104,200 204,200" fill="none" stroke="rgba(212,149,36,0.08)" stroke-width="1.2"/>
+                <polygon points="260,120 370,300 150,300" fill="none" stroke="rgba(212,149,36,0.2)" stroke-width="0.8"/>
+                <polygon points="260,400 150,220 370,220" fill="none" stroke="rgba(212,149,36,0.2)" stroke-width="0.8"/>
+            </svg>
+
+            <!-- Inner fast ring -->
+            <svg class="spin-fast absolute inset-0 w-full h-full" viewBox="0 0 520 520" fill="none">
+                <circle cx="260" cy="260" r="148" stroke="rgba(212,149,36,0.22)" stroke-width="0.7" stroke-dasharray="3 9"/>
+                <g stroke="rgba(212,149,36,0.30)" stroke-width="0.7">
+                    <line x1="260" y1="112" x2="260" y2="148"/>
+                    <line x1="260" y1="372" x2="260" y2="408"/>
+                    <line x1="112" y1="260" x2="148" y2="260"/>
+                    <line x1="372" y1="260" x2="408" y2="260"/>
+                    <line x1="155" y1="155" x2="181" y2="181"/>
+                    <line x1="339" y1="155" x2="365" y2="181"/>
+                    <line x1="155" y1="365" x2="181" y2="339"/>
+                    <line x1="339" y1="365" x2="365" y2="339"/>
+                </g>
+            </svg>
+
+            <!-- Static decorative circles (Flower of Life hint) -->
+            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 520 520" fill="none">
+                <circle cx="260" cy="260" r="90"  stroke="rgba(212,149,36,0.20)" stroke-width="0.6"/>
+                <circle cx="260" cy="170" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="260" cy="350" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="182" cy="215" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="338" cy="215" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="182" cy="305" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <circle cx="338" cy="305" r="90"  stroke="rgba(212,149,36,0.10)" stroke-width="0.5"/>
+                <ellipse cx="260" cy="260" rx="52" ry="28" stroke="rgba(212,149,36,0.50)" stroke-width="0.8"/>
+                <circle  cx="260" cy="260" r="18" fill="rgba(212,149,36,0.08)" stroke="rgba(212,149,36,0.45)" stroke-width="0.8"/>
+                <circle  cx="260" cy="260" r="7" fill="rgba(212,149,36,0.60)" stroke="none"/>
+            </svg>
+
+            <!-- 8 small diamond ornaments on outer ring -->
+            <svg class="absolute inset-0 w-full h-full" viewBox="0 0 520 520" fill="rgba(212,149,36,0.55)">
+                <polygon points="260,9  265,16  260,23  255,16"/>
+                <polygon points="260,497 265,504 260,511 255,504"/>
+                <polygon points="9,260  16,265  23,260  16,255"/>
+                <polygon points="497,260 504,265 511,260 504,255"/>
+                <polygon points="83,83   89,90   96,83   89,76"/>
+                <polygon points="424,83  430,90  437,83  430,76"/>
+                <polygon points="83,437  89,444  96,437  89,430"/>
+                <polygon points="424,437 430,444 437,437 430,430"/>
+            </svg>
+        </div>
+
+        <!-- ── TEXTO DE PORTADA ── -->
+        <div class="relative z-10 flex flex-col items-center text-center px-8 space-y-0">
+            <p class="fade-up font-display text-xs tracking-[0.55em] text-gold-500/80 uppercase mb-6">
+                Análisis de Estructura Cósmica
+            </p>
+
+            <h1 class="fade-up-2 font-display font-black text-white uppercase leading-none"
+                style="font-size:clamp(2.4rem,6vw,4rem);letter-spacing:0.12em;text-shadow:0 0 60px rgba(212,149,36,0.25);">
+                Reporte<br>Vibracional
+            </h1>
+
+            <div class="fade-up-2 flex items-center gap-4 my-7 w-full max-w-md">
+                <div class="flex-1 h-px bg-gradient-to-r from-transparent to-gold-400/70"></div>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="#d49524" opacity="0.9">
+                    <polygon points="7,0 8.5,5.5 14,7 8.5,8.5 7,14 5.5,8.5 0,7 5.5,5.5"/>
+                </svg>
+                <div class="flex-1 h-px bg-gradient-to-l from-transparent to-gold-400/70"></div>
+            </div>
+
+            <h2 class="fade-up-3 font-display italic text-gold-300/95"
+                style="font-size:clamp(1.1rem,3vw,1.55rem);letter-spacing:0.06em;text-shadow:0 0 40px rgba(212,149,36,0.3);">
+                {{NOMBRE}}
+            </h2>
+
+            <div class="fade-up-3 flex flex-wrap justify-center gap-3 mt-6">
+                <span class="font-display text-xs tracking-[0.3em] uppercase text-gold-600/70 border border-gold-600/20 rounded-full px-3 py-1">
+                    {{ETIQUETA_NUMERO}}
+                </span>
+                <span class="font-display text-xs tracking-[0.3em] uppercase text-gold-600/70 border border-gold-600/20 rounded-full px-3 py-1">
+                    {{ETIQUETA_SENDERO}}
+                </span>
+                <span class="font-display text-xs tracking-[0.3em] uppercase text-gold-600/70 border border-gold-600/20 rounded-full px-3 py-1">
+                    {{ETIQUETA_ARQUETIPO}}
+                </span>
+            </div>
+
+            <div class="fade-up-4 flex flex-col items-center mt-16 space-y-3">
+                <div class="h-px w-32 bg-gradient-to-r from-transparent via-gold-500/50 to-transparent"></div>
+                <svg class="w-7 h-7" fill="none" stroke="#b8751b" stroke-width="1.2" opacity="0.65" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-11.314l.707.707m11.314 11.314l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+                </svg>
+                <p class="font-display font-black text-gold-500 tracking-[0.3em] uppercase" style="font-size:1.05rem;text-shadow:0 0 20px rgba(184,117,27,0.4);">
+                    Elara Kairos
+                </p>
+                <p class="font-display text-gold-700 tracking-[0.25em] uppercase" style="font-size:0.6rem;">
+                    Lecturas Vibracionales &amp; Codificación del Alma
+                </p>
+                <div class="h-px w-32 bg-gradient-to-r from-transparent via-gold-500/50 to-transparent"></div>
+            </div>
+        </div>
+
+        <div class="no-print absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gold-600/50">
+            <span class="font-display text-xs tracking-widest uppercase">Continuar</span>
+            <svg class="scroll-bounce w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- ── CONTENEDOR PRINCIPAL DEL REPORTE TEXTUAL ── -->
+    <div id="document-root" class="max-w-4xl mx-auto px-6 py-12 md:py-20 space-y-16">
+
+        <!-- 1. CONTENEDOR ENERGÉTICO -->
+        <section class="grid md:grid-cols-12 gap-8 items-center page-break">
+            <div class="md:col-span-8 bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow">
+                <div class="flex items-center gap-3">
+                    <span class="font-display text-4xl font-bold text-gold-400">{{NUMERO_GRANDE}}</span>
+                    <h2 class="font-display text-xl md:text-2xl text-white tracking-wide uppercase">
+                        1. El Contenedor Energético (Frecuencia del Nombre):
+                    </h2>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-justify">
+                    {{TEXTO_SEC_1}}
+                </p>
+            </div>
+            
+            <div class="md:col-span-4 flex justify-center">
+                <div class="relative w-44 h-44 flex items-center justify-center border-2 border-gold-500/20 rounded-full p-4 card-shadow bg-slate-900/20">
+                    <div class="absolute w-full h-full rounded-full border border-dashed border-gold-500/40 animate-[spin_60s_linear_infinite]"></div>
+                    <div class="text-center">
+                        <span class="font-display text-6xl font-black text-gold-400 block tracking-tighter">{{NUMERO_ROMANO}}</span>
+                        <span class="text-xs font-display tracking-[0.2em] text-gold-500/80 uppercase">Frecuencia Maestra</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. EL SENDERO Y EL ARQUETIPO -->
+        <section class="border-t border-gold-500/10 pt-12 page-break">
+            <div class="grid md:grid-cols-12 gap-8 items-center">
+                <div class="md:col-span-4 flex justify-center order-last md:order-first">
+                    <div class="relative w-56 h-80 border-2 border-gold-500/30 rounded-xl bg-slate-900/50 p-4 shadow-2xl flex flex-col justify-between overflow-hidden card-shadow">
+                        <div class="absolute -right-12 -top-12 w-32 h-32 bg-gold-400/5 rounded-full blur-2xl"></div>
+                        <div class="flex justify-between items-center border-b border-gold-500/10 pb-2">
+                            <span class="font-display text-gold-400 text-sm">{{NOMBRE_LETRA_HEBREA}}</span>
+                            <span class="font-display text-gold-400 text-sm">{{NUMERO_SENDERO}}</span>
+                        </div>
+                        <div class="my-6 flex flex-col items-center justify-center flex-grow">
+                            <svg class="w-24 h-24 text-gold-400/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 21h18M3 21l6-12 4 6 5-10 3 6M19 5a2 2 0 11-4 0 2 2 0 014 0z" />
+                                <circle cx="8" cy="6" r="2" stroke-width="1"/>
+                                <path d="M8 1v2M8 10v1M4 4l1.5 1.5M11 9l.5.5" stroke-width="1"/>
+                            </svg>
+                            <span class="font-display text-xs tracking-widest text-gold-500 mt-4 uppercase">{{NOMBRE_ARQUETIPO}}</span>
+                        </div>
+                        <div class="border-t border-gold-500/10 pt-2 text-center">
+                            <span class="font-display text-xs tracking-[0.3em] text-gold-400 uppercase">{{CONEXION_SEFIROT}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:col-span-8 bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="compass" class="w-6 h-6 text-gold-400"></i>
+                        <h2 class="font-display text-xl md:text-2xl text-white tracking-wide uppercase">
+                            2. El Sendero y El Arquetipo:
+                        </h2>
+                    </div>
+                    <p class="text-slate-300 leading-relaxed text-justify">
+                        {{TEXTO_SEC_2}}
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3 Y 4. LUZ Y SOMBRAS -->
+        <section class="grid md:grid-cols-2 gap-8 border-t border-gold-500/10 pt-12 page-break">
+            <!-- TARJETA POSITIVA -->
+            <div class="bg-gradient-to-br from-amber-500/10 to-yellow-600/5 border border-yellow-500/30 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl card-shadow">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-yellow-400/10 rounded-lg text-yellow-400">
+                        <i data-lucide="sun" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-display text-lg md:text-xl text-yellow-300 uppercase tracking-wider">
+                        3. La Luz y Los Talentos Ocultos (Análisis del Prompt Positivo):
+                    </h3>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed text-justify">
+                    {{TEXTO_SEC_3}}
+                </p>
+            </div>
+
+            <!-- TARJETA NEGATIVA -->
+            <div class="bg-gradient-to-br from-purple-950/20 to-slate-900/40 border border-purple-500/20 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl card-shadow">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-purple-500/10 rounded-lg text-purple-400">
+                        <i data-lucide="moon" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-display text-lg md:text-xl text-purple-300 uppercase tracking-wider">
+                        4. Las Klipot y El Sabotaje (Análisis del Prompt Negativo):
+                    </h3>
+                </div>
+                <p class="text-sm text-slate-300 leading-relaxed text-justify">
+                    {{TEXTO_SEC_4}}
+                </p>
+            </div>
+        </section>
+
+        <!-- 5. MAPEO -->
+        <section class="border-t border-gold-500/10 pt-12 page-break">
+            <div class="text-center mb-8">
+                <i data-lucide="activity" class="w-8 h-8 text-gold-400 mx-auto mb-2"></i>
+                <h2 class="font-display text-xl md:text-2xl text-white tracking-wide uppercase">
+                    5. El Mapeo de las Sefirot Clave:
+                </h2>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="overflow-hidden border border-gold-500/20 rounded-xl bg-slate-900/30 card-shadow">
+                    <table class="w-full text-left text-sm md:text-base">
+                        <thead class="bg-gold-500/10 font-display text-gold-300 uppercase tracking-wider text-xs md:text-sm border-b border-gold-500/20">
+                            <tr>
+                                <th class="px-4 md:px-6 py-4">Sefirá</th>
+                                <th class="px-4 md:px-6 py-4">Letra Hebrea</th>
+                                <th class="px-4 md:px-6 py-4">Planeta</th>
+                                <th class="px-4 md:px-6 py-4">Signo</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gold-500/10 text-slate-300">
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Keter (Neptuno)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">כתר</td><td class="px-4 md:px-6 py-4">Neptuno</td><td class="px-4 md:px-6 py-4">{{SIGNO_KETER}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Chochmah (Urano)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">חכמה</td><td class="px-4 md:px-6 py-4">Urano</td><td class="px-4 md:px-6 py-4">{{SIGNO_CHOCHMAH}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Binah (Saturno)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">בינה</td><td class="px-4 md:px-6 py-4">Saturno</td><td class="px-4 md:px-6 py-4">{{SIGNO_BINAH}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Chesed (Júpiter)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">חסד</td><td class="px-4 md:px-6 py-4">Júpiter</td><td class="px-4 md:px-6 py-4">{{SIGNO_CHESED}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Gevurah (Marte)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">גבורה</td><td class="px-4 md:px-6 py-4">Marte</td><td class="px-4 md:px-6 py-4">{{SIGNO_GEVURAH}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Tiferet (Sol)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">תפארת</td><td class="px-4 md:px-6 py-4">Sol</td><td class="px-4 md:px-6 py-4">{{SIGNO_TIFERET}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Netzach (Venus)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">נצח</td><td class="px-4 md:px-6 py-4">Venus</td><td class="px-4 md:px-6 py-4">{{SIGNO_NETZACH}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Hod (Mercurio)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">הוד</td><td class="px-4 md:px-6 py-4">Mercurio</td><td class="px-4 md:px-6 py-4">{{SIGNO_HOD}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Yesod (Luna)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">יסוד</td><td class="px-4 md:px-6 py-4">Luna</td><td class="px-4 md:px-6 py-4">{{SIGNO_YESOD}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Malkhut (Ascendente)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">מלכות</td><td class="px-4 md:px-6 py-4">Ascendente</td><td class="px-4 md:px-6 py-4">{{SIGNO_MALKHUT}}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6, 7 y 8 -->
+        <section class="border-t border-gold-500/10 pt-12 space-y-12">
+            
+            <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
+                <div class="flex items-center gap-3">
+                    <span class="font-display text-2xl text-gold-400">6.</span>
+                    <h3 class="font-display text-xl text-white tracking-wide uppercase">
+                        6. El Triángulo Superno (Estructura y Límite):
+                    </h3>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-justify">
+                    {{TEXTO_SEC_6}}
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
+                <div class="flex items-center gap-3">
+                    <span class="font-display text-2xl text-gold-400">7.</span>
+                    <h3 class="font-display text-xl text-white tracking-wide uppercase">
+                        7. El Motor Emocional y la Identidad (El Choque Central):
+                    </h3>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-justify">
+                    {{TEXTO_SEC_7}}
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
+                <div class="flex items-center gap-3">
+                    <span class="font-display text-2xl text-gold-400">8.</span>
+                    <h3 class="font-display text-xl text-white tracking-wide uppercase">
+                        8. El Cortocircuito en Malkhut (La Ejecución Física):
+                    </h3>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-justify">
+                    {{TEXTO_SEC_8}}
+                </p>
+            </div>
+        </section>
+
+        <!-- 9, 10 y 11 -->
+        <section class="border-t border-gold-500/10 pt-12 space-y-12">
+            
+            <div class="bg-gradient-to-r from-red-950/20 via-slate-900/30 to-red-950/10 border border-red-500/20 p-6 md:p-8 rounded-xl space-y-3 shadow-lg card-shadow page-break">
+                <h3 class="font-display text-lg md:text-xl text-red-300 uppercase tracking-wider flex items-center gap-2">
+                    <i data-lucide="shield-alert" class="w-5 h-5 text-red-400"></i>
+                    9. El Diagnóstico de la Herida Principal:
+                </h3>
+                <p class="text-slate-300 leading-relaxed text-justify">
+                    {{TEXTO_SEC_9}}
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
+                <div class="flex items-center gap-3">
+                    <span class="font-display text-2xl text-gold-400">10.</span>
+                    <h3 class="font-display text-xl text-white tracking-wide uppercase">
+                        10. El Origen del Patrón (El Fantasma Familiar):
+                    </h3>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-justify">
+                    {{TEXTO_SEC_10}}
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
+                <div class="flex items-center gap-3">
+                    <span class="font-display text-2xl text-gold-400">11.</span>
+                    <h3 class="font-display text-xl text-white tracking-wide uppercase">
+                        11. El Bucle de Sabotaje:
+                    </h3>
+                </div>
+                <p class="text-slate-300 leading-relaxed text-justify">
+                    {{TEXTO_SEC_11}}
+                </p>
+            </div>
+        </section>
+
+        <!-- 12. EL TIKÚN -->
+        <section class="border-t border-gold-500/10 pt-12 page-break">
+            <div class="bg-gradient-to-br from-gold-950/40 via-slate-900/50 to-gold-950/20 border-2 border-gold-500/30 rounded-3xl p-8 md:p-10 space-y-6 relative overflow-hidden shadow-2xl card-shadow">
+                <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-gold-400/5 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="text-center space-y-2">
+                    <span class="font-display text-gold-400 text-sm tracking-[0.4em] uppercase">Misión Álmica</span>
+                    <h2 class="font-display text-2xl md:text-3xl text-gold-300 font-bold uppercase tracking-wider">
+                        12. El Tikún (La Corrección Kármica):
+                    </h2>
+                    <div class="h-[1px] w-16 bg-gold-400/40 mx-auto"></div>
+                </div>
+                
+                <p class="text-slate-300 leading-relaxed text-justify">
+                    {{TEXTO_SEC_12}}
+                </p>
+            </div>
+        </section>
+
+        <!-- VEREDICTO FINAL -->
+        <footer class="border-t-2 border-double border-gold-500/30 pt-16 space-y-12 page-break">
+            
+            <div class="text-center">
+                <p class="font-display text-gold-400 text-xs tracking-[0.5em] uppercase mb-1">Cierre Hermético</p>
+                <h2 class="font-display text-3xl text-white font-extrabold tracking-widest">
+                    VEREDICTO FINAL: La Integración de tu Código
+                </h2>
+                <div class="h-[1px] w-32 bg-gradient-to-r from-transparent via-gold-400 to-transparent mx-auto mt-4"></div>
+            </div>
+
+            <div class="space-y-8 md:space-y-10">
+                <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-3 shadow-lg card-shadow">
+                    <h4 class="font-display text-gold-400 text-lg font-bold tracking-wide flex items-center gap-2">
+                        <span class="text-xs border border-gold-500/40 rounded px-1.5 py-0.5">I</span>
+                        I. La Síntesis de la Dualidad:
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed text-justify">
+                        {{VEREDICTO_1}}
+                    </p>
+                </div>
+
+                <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-3 shadow-lg card-shadow page-break">
+                    <h4 class="font-display text-gold-400 text-lg font-bold tracking-wide flex items-center gap-2">
+                        <span class="text-xs border border-gold-500/40 rounded px-1.5 py-0.5">II</span>
+                        II. La Promesa del Tikún (El Potencial Desbloqueado):
+                    </h4>
+                    <p class="text-slate-300 leading-relaxed text-justify">
+                        {{VEREDICTO_2}}
+                    </p>
+                </div>
+
+                <div class="text-center py-6 border-y border-gold-500/10 max-w-2xl mx-auto my-8 page-break">
+                    <h4 class="font-display text-gold-300 text-xl font-black tracking-widest uppercase mb-3">
+                        III. El Mandato de Cierre:
+                    </h4>
+                    <p class="text-slate-200 text-lg md:text-xl font-light italic leading-relaxed max-w-xl mx-auto">
+                        {{VEREDICTO_3}}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Firma de Cierre -->
+            <div class="flex flex-col items-center justify-center pt-8 page-break">
+                <svg class="w-12 h-12 text-gold-500/60 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-11.314l.707.707m11.314 11.314l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+                <p class="text-2xl md:text-4xl font-display font-black text-gold-500 tracking-[0.2em] uppercase mt-2 drop-shadow-lg">Elara Kairos</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Función para alternar el tema claro/oscuro
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
+            const icon = document.getElementById('theme-icon');
+            
+            if (document.body.classList.contains('light-theme')) {
+                icon.setAttribute('data-lucide', 'moon');
+            } else {
+                icon.setAttribute('data-lucide', 'sun');
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
