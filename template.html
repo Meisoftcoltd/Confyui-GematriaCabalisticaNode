@@ -35,13 +35,11 @@
     </script>
     
     <style>
-        /* Efecto de ruido de fondo sutil para el estilo místico */
         .bg-noise {
             background-image: radial-gradient(rgba(255,255,255,0.03) 1px, transparent 0);
             background-size: 24px 24px;
         }
 
-        /* ── ANIMACIONES DE LA PORTADA ── */
         .spin-slow  { animation: spin  90s linear infinite; }
         .spin-med   { animation: spin  45s linear infinite reverse; }
         .spin-fast  { animation: spin  20s linear infinite; }
@@ -54,10 +52,7 @@
         @keyframes spin       { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes pulseGlow  { 0%,100% { opacity:.5; filter:blur(60px); } 50% { opacity:.9; filter:blur(80px); } }
         @keyframes fadeUp     { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
-        @keyframes scrollBounce { 0%,100% { transform:translateY(0); } 50% { transform:translateY(6px); } }
-        .scroll-bounce { animation: scrollBounce 2s ease-in-out infinite; }
 
-        /* ── ESTILOS DE PORTADA ── */
         #cover {
             min-height: 100vh;
             display: flex;
@@ -79,7 +74,6 @@
             pointer-events: none;
         }
 
-        /* ── ESTILOS FORZADOS PARA EXPORTACIÓN A PDF ── */
         @media print {
             @page {
                 margin: 1cm;
@@ -97,14 +91,11 @@
                 break-inside: avoid !important;
             }
             .card-shadow { box-shadow: none !important; border: 1px solid rgba(212,149,36,0.3) !important; }
-            
-            /* Ajustes de portada para impresión */
             #cover { page-break-after: always; min-height:100vh; height:100vh; }
             .spin-slow, .spin-med, .spin-fast { animation: none !important; }
             .pulse-glow { animation: none !important; opacity: 0.6 !important; }
         }
         
-        /* ── TEMA CLARO (LIGHT THEME) ── */
         body.light-theme {
             background-color: #f8fafc !important;
             color: #334155 !important;
@@ -130,19 +121,16 @@
         body.light-theme .border-yellow-500\/30 { border-color: rgba(234, 179, 8, 0.4) !important; }
         body.light-theme .border-purple-500\/20 { border-color: rgba(168, 85, 247, 0.4) !important; }
         
-        /* Tema Claro en Portada */
         body.light-theme #cover { background-color: #f5efe0 !important; }
         body.light-theme #cover .cover-border { border-color: rgba(160,100,10,0.35) !important; }
         body.light-theme #cover .cover-border-2 { border-color: rgba(160,100,10,0.15) !important; }
         
-        /* ── CORRECCIONES DE LEGIBILIDAD PORTADA (MODO CLARO) ── */
         body.light-theme #cover .text-white { color: #2d1a11 !important; text-shadow: none !important; }
         body.light-theme #cover .text-gold-300\/95 { color: #703813 !important; text-shadow: none !important; }
         body.light-theme #cover .text-gold-500\/80 { color: #945416 !important; }
-        body.light-theme #cover .text-gold-600\/70 { color: #703813 !important; border-color: rgba(112,56,19,0.3) !important; background-color: rgba(255,255,255,0.5); }
+        body.light-theme #cover .text-gold-400\/80 { color: #703813 !important; border-color: rgba(112,56,19,0.3) !important; background-color: rgba(255,255,255,0.5); }
         body.light-theme #cover .text-gold-500 { color: #703813 !important; text-shadow: none !important; }
-        body.light-theme #cover .text-gold-700 { color: #4e230f !important; }
-        body.light-theme #cover .text-gold-600\/50 { color: #703813 !important; }
+        body.light-theme #cover .text-gold-400\/90 { color: #4e230f !important; }
         body.light-theme #cover .to-gold-400\/70 { --tw-gradient-to: rgba(112, 56, 19, 0.7) !important; }
         body.light-theme #cover svg { filter: brightness(0.3) contrast(1.5) sepia(1) hue-rotate(-20deg) saturate(2) !important; }
         body.light-theme #cover .pulse-glow { opacity: 0.1 !important; mix-blend-mode: multiply; }
@@ -244,13 +232,13 @@
             </h2>
 
             <div class="fade-up-3 flex flex-wrap justify-center gap-3 mt-6">
-                <span class="font-display text-xs tracking-[0.3em] uppercase text-gold-600/70 border border-gold-600/20 rounded-full px-3 py-1">
+                <span class="font-display text-xs tracking-[0.3em] uppercase text-gold-400/80 border border-gold-500/30 rounded-full px-3 py-1">
                     {{ETIQUETA_NUMERO}}
                 </span>
-                <span class="font-display text-xs tracking-[0.3em] uppercase text-gold-600/70 border border-gold-600/20 rounded-full px-3 py-1">
+                <span class="font-display text-xs tracking-[0.3em] uppercase text-gold-400/80 border border-gold-500/30 rounded-full px-3 py-1">
                     {{ETIQUETA_SENDERO}}
                 </span>
-                <span class="font-display text-xs tracking-[0.3em] uppercase text-gold-600/70 border border-gold-600/20 rounded-full px-3 py-1">
+                <span class="font-display text-xs tracking-[0.3em] uppercase text-gold-400/80 border border-gold-500/30 rounded-full px-3 py-1">
                     {{ETIQUETA_ARQUETIPO}}
                 </span>
             </div>
@@ -260,26 +248,21 @@
                 <svg class="w-7 h-7" fill="none" stroke="#b8751b" stroke-width="1.2" opacity="0.65" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-11.314l.707.707m11.314 11.314l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
                 </svg>
-                <p class="font-display font-black text-gold-500 tracking-[0.3em] uppercase" style="font-size:1.05rem;text-shadow:0 0 20px rgba(184,117,27,0.4);">
+                <p class="font-display font-black text-gold-400/90 tracking-[0.3em] uppercase" style="font-size:1.05rem;text-shadow:0 0 20px rgba(184,117,27,0.4);">
                     Elara Kairos
                 </p>
-                <p class="font-display text-gold-700 tracking-[0.25em] uppercase" style="font-size:0.6rem;">
+                <p class="font-display text-gold-400/90 tracking-[0.25em] uppercase" style="font-size:0.6rem;">
                     Lecturas Vibracionales &amp; Codificación del Alma
                 </p>
                 <div class="h-px w-32 bg-gradient-to-r from-transparent via-gold-500/50 to-transparent"></div>
             </div>
         </div>
-
-        <div class="no-print absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-gold-600/50">
-            <span class="font-display text-xs tracking-widest uppercase">Continuar</span>
-            <svg class="scroll-bounce w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7"/>
-            </svg>
-        </div>
     </section>
 
+    <!-- ── CONTENEDOR PRINCIPAL DEL REPORTE TEXTUAL ── -->
     <div id="document-root" class="max-w-4xl mx-auto px-6 py-12 md:py-20 space-y-16">
 
+        <!-- 1. CONTENEDOR ENERGÉTICO -->
         <section class="grid md:grid-cols-12 gap-8 items-center page-break">
             <div class="md:col-span-8 bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow">
                 <div class="flex items-center gap-3">
@@ -288,9 +271,7 @@
                         1. El Contenedor Energético (Frecuencia del Nombre):
                     </h2>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-justify">
-                    {{TEXTO_SEC_1}}
-                </p>
+                <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_1}}</p>
             </div>
             
             <div class="md:col-span-4 flex justify-center">
@@ -304,11 +285,13 @@
             </div>
         </section>
 
+        <!-- 2. EL SENDERO Y EL ARQUETIPO (CON LA IMAGEN GENERADA EN BASE64 - ASPECT 9:16) -->
         <section class="border-t border-gold-500/10 pt-12 page-break">
             <div class="grid md:grid-cols-12 gap-8 items-center">
                 
                 <div class="md:col-span-4 flex justify-center order-last md:order-first">
-                    <div class="relative w-56 h-80 border-2 border-gold-500/30 rounded-xl bg-slate-900/50 p-4 shadow-2xl flex flex-col justify-between overflow-hidden card-shadow">
+                    <!-- MARCO DE LA CARTA TAROT -->
+                    <div class="relative w-56 sm:w-60 aspect-[9/16] border-2 border-gold-500/30 rounded-xl bg-slate-900/50 p-4 shadow-2xl flex flex-col justify-between overflow-hidden card-shadow">
                         <div class="absolute -right-12 -top-12 w-32 h-32 bg-gold-400/5 rounded-full blur-2xl"></div>
                         
                         <div class="flex justify-between items-center border-b border-gold-500/10 pb-2 z-10">
@@ -335,13 +318,12 @@
                             2. El Sendero y El Arquetipo:
                         </h2>
                     </div>
-                    <p class="text-slate-300 leading-relaxed text-justify">
-                        {{TEXTO_SEC_2}}
-                    </p>
+                    <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_2}}</p>
                 </div>
             </div>
         </section>
 
+        <!-- 3 Y 4. LUZ Y SOMBRAS -->
         <section class="grid md:grid-cols-2 gap-8 border-t border-gold-500/10 pt-12 page-break">
             <div class="bg-gradient-to-br from-amber-500/10 to-yellow-600/5 border border-yellow-500/30 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl card-shadow">
                 <div class="flex items-center gap-3">
@@ -352,9 +334,7 @@
                         3. La Luz y Los Talentos Ocultos:
                     </h3>
                 </div>
-                <p class="text-sm text-slate-300 leading-relaxed text-justify">
-                    {{TEXTO_SEC_3}}
-                </p>
+                <p class="text-sm text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_3}}</p>
             </div>
 
             <div class="bg-gradient-to-br from-purple-950/20 to-slate-900/40 border border-purple-500/20 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl card-shadow">
@@ -366,12 +346,11 @@
                         4. Las Klipot y El Sabotaje:
                     </h3>
                 </div>
-                <p class="text-sm text-slate-300 leading-relaxed text-justify">
-                    {{TEXTO_SEC_4}}
-                </p>
+                <p class="text-sm text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_4}}</p>
             </div>
         </section>
 
+        <!-- 5. MAPEO -->
         <section class="border-t border-gold-500/10 pt-12 page-break">
             <div class="text-center mb-8">
                 <i data-lucide="activity" class="w-8 h-8 text-gold-400 mx-auto mb-2"></i>
@@ -408,6 +387,7 @@
             </div>
         </section>
 
+        <!-- 6, 7 y 8 -->
         <section class="border-t border-gold-500/10 pt-12 space-y-12">
             <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
                 <div class="flex items-center gap-3">
@@ -416,9 +396,7 @@
                         6. El Triángulo Superno (Estructura y Límite):
                     </h3>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-justify">
-                    {{TEXTO_SEC_6}}
-                </p>
+                <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_6}}</p>
             </div>
 
             <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
@@ -428,9 +406,7 @@
                         7. El Motor Emocional y la Identidad (El Choque Central):
                     </h3>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-justify">
-                    {{TEXTO_SEC_7}}
-                </p>
+                <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_7}}</p>
             </div>
 
             <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
@@ -440,21 +416,18 @@
                         8. El Cortocircuito en Malkhut (La Ejecución Física):
                     </h3>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-justify">
-                    {{TEXTO_SEC_8}}
-                </p>
+                <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_8}}</p>
             </div>
         </section>
 
+        <!-- 9, 10 y 11 -->
         <section class="border-t border-gold-500/10 pt-12 space-y-12">
             <div class="bg-gradient-to-r from-red-950/20 via-slate-900/30 to-red-950/10 border border-red-500/20 p-6 md:p-8 rounded-xl space-y-3 shadow-lg card-shadow page-break">
                 <h3 class="font-display text-lg md:text-xl text-red-300 uppercase tracking-wider flex items-center gap-2">
                     <i data-lucide="shield-alert" class="w-5 h-5 text-red-400"></i>
                     9. El Diagnóstico de la Herida Principal:
                 </h3>
-                <p class="text-slate-300 leading-relaxed text-justify">
-                    {{TEXTO_SEC_9}}
-                </p>
+                <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_9}}</p>
             </div>
 
             <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
@@ -464,9 +437,7 @@
                         10. El Origen del Patrón (El Fantasma Familiar):
                     </h3>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-justify">
-                    {{TEXTO_SEC_10}}
-                </p>
+                <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_10}}</p>
             </div>
 
             <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
@@ -476,12 +447,11 @@
                         11. El Bucle de Sabotaje:
                     </h3>
                 </div>
-                <p class="text-slate-300 leading-relaxed text-justify">
-                    {{TEXTO_SEC_11}}
-                </p>
+                <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_11}}</p>
             </div>
         </section>
 
+        <!-- 12. EL TIKÚN -->
         <section class="border-t border-gold-500/10 pt-12 page-break">
             <div class="bg-gradient-to-br from-gold-950/40 via-slate-900/50 to-gold-950/20 border-2 border-gold-500/30 rounded-3xl p-8 md:p-10 space-y-6 relative overflow-hidden shadow-2xl card-shadow">
                 <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-gold-400/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -494,12 +464,11 @@
                     <div class="h-[1px] w-16 bg-gold-400/40 mx-auto"></div>
                 </div>
                 
-                <p class="text-slate-300 leading-relaxed text-justify">
-                    {{TEXTO_SEC_12}}
-                </p>
+                <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_12}}</p>
             </div>
         </section>
 
+        <!-- VEREDICTO FINAL -->
         <footer class="border-t-2 border-double border-gold-500/30 pt-16 space-y-12 page-break">
             <div class="text-center">
                 <p class="font-display text-gold-400 text-xs tracking-[0.5em] uppercase mb-1">Cierre Hermético</p>
@@ -515,9 +484,7 @@
                         <span class="text-xs border border-gold-500/40 rounded px-1.5 py-0.5">I</span>
                         I. La Síntesis de la Dualidad:
                     </h4>
-                    <p class="text-slate-300 leading-relaxed text-justify">
-                        {{VEREDICTO_1}}
-                    </p>
+                    <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{VEREDICTO_1}}</p>
                 </div>
 
                 <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-3 shadow-lg card-shadow page-break">
@@ -525,21 +492,18 @@
                         <span class="text-xs border border-gold-500/40 rounded px-1.5 py-0.5">II</span>
                         II. La Promesa del Tikún (El Potencial Desbloqueado):
                     </h4>
-                    <p class="text-slate-300 leading-relaxed text-justify">
-                        {{VEREDICTO_2}}
-                    </p>
+                    <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{VEREDICTO_2}}</p>
                 </div>
 
                 <div class="text-center py-6 border-y border-gold-500/10 max-w-2xl mx-auto my-8 page-break">
                     <h4 class="font-display text-gold-300 text-xl font-black tracking-widest uppercase mb-3">
                         III. El Mandato de Cierre:
                     </h4>
-                    <p class="text-slate-200 text-lg md:text-xl font-light italic leading-relaxed max-w-xl mx-auto">
-                        {{VEREDICTO_3}}
-                    </p>
+                    <p class="text-slate-200 text-lg md:text-xl font-light italic leading-relaxed max-w-xl mx-auto whitespace-pre-wrap">{{VEREDICTO_3}}</p>
                 </div>
             </div>
 
+            <!-- Firma de Cierre -->
             <div class="flex flex-col items-center justify-center pt-8 page-break">
                 <svg class="w-12 h-12 text-gold-500/60 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-11.314l.707.707m11.314 11.314l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
