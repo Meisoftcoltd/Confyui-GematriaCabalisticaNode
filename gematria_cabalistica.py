@@ -13,7 +13,7 @@ class GematriaCabalisticaNode:
     RETURN_TYPES = ("INT", "STRING", "STRING", "STRING")
     RETURN_NAMES = ("NUMERO", "CONCEPTO", "PROMPT_POSITIVO", "PROMPT_NEGATIVO")
     FUNCTION = "calcular_gematria"
-    CATEGORY = "GipsyCabalistico"
+    CATEGORY = "GematriaCabalistica"
 
     def calcular_gematria(self, nombre_completo):
         # 1. Limpieza del input
