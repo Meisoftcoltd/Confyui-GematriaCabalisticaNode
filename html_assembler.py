@@ -29,29 +29,24 @@ class GematriaHTMLAssembler:
         # ---------------------------------------------------------
         # 1. CONVERSIÓN DE IMAGEN TENSOR A BASE64
         # ---------------------------------------------------------
-        # ComfyUI pasa la imagen en formato [Batch, Height, Width, Channels]
-        img_tensor = imagen[0].cpu().numpy() # Tomamos la primera imagen del batch
-        # Convertimos de valores [0.0 - 1.0] a píxeles [0 - 255]
+        img_tensor = imagen[0].cpu().numpy()
         img_array = np.clip(255. * img_tensor, 0, 255).astype(np.uint8)
         img_pil = Image.fromarray(img_array)
 
-        # Guardamos en memoria como JPEG (para que el HTML no pese decenas de megas)
         buffered = BytesIO()
         img_pil.save(buffered, format="JPEG", quality=85)
         img_base64_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
         imagen_base64 = f"data:image/jpeg;base64,{img_base64_str}"
 
         # ---------------------------------------------------------
-        # 2. PARSEO DE TEXTOS (Extraer Secciones)
+        # 2. PARSEO DE TEXTOS CON REGEX (Extracción limpia)
         # ---------------------------------------------------------
         def extract_sections(md_text):
-            parts = [p.strip() for p in md_text.split('###') if p.strip()]
-            sections = []
-            for part in parts:
-                lines = part.split('\n', 1)
-                content = lines[1].replace('**', '').strip() if len(lines) > 1 else part
-                sections.append(content)
-            return sections
+            # Busca estrictamente todo lo que hay DESPUÉS de una línea con '###'
+            # y se detiene antes del siguiente '###' o el final del documento.
+            # Esto elimina automáticamente los títulos duplicados y el formato roto.
+            matches = re.findall(r'###[^\n]*\n(.*?)(?=###|$)', md_text, re.DOTALL)
+            return [m.replace('**', '').strip() for m in matches]
 
         sec1 = extract_sections(md1) + [""] * 4
         sec2 = extract_sections(md2) + [""] * 4
@@ -65,7 +60,6 @@ class GematriaHTMLAssembler:
             match = re.search(pattern, text, re.IGNORECASE)
             return match.group(1).strip() if match else fallback
 
-        # Extraer Planetas/Signos de md2
         signos = {
             "{{SIGNO_KETER}}": get_regex_val(r"Keter \(Neptuno\):\s*\*?([a-zA-Z]+)", md2, "-"),
             "{{SIGNO_CHOCHMAH}}": get_regex_val(r"Chochmah \(Urano\):\s*\*?([a-zA-Z]+)", md2, "-"),
@@ -79,7 +73,6 @@ class GematriaHTMLAssembler:
             "{{SIGNO_MALKHUT}}": get_regex_val(r"Malkhut \(Ascendente\):\s*\*?([a-zA-Z]+)", md2, "-"),
         }
 
-        # Extraer Datos Maestros de md1 (Fallbacks por defecto neutros)
         numero_base = get_regex_val(r"frecuencia del número\s*(\d+)", md1, "No detectado")
         arquetipo = get_regex_val(r"El Arquetipo asociado es\s*([a-zA-Z\s]+)\.", md1, "No detectado")
         sendero = get_regex_val(r"El Sendero\s*([a-zA-Z]+)\s*es", md1, "No detectado")
@@ -95,11 +88,8 @@ class GematriaHTMLAssembler:
         except FileNotFoundError:
             return ("Error: No se encontró el archivo template.html",)
 
-        # Inyectar Nombre e Imagen Base64
         html = html.replace("{{NOMBRE}}", nombre)
         html = html.replace("{{IMAGEN_CARTA_BASE64}}", imagen_base64)
-
-        # Inyectar Etiquetas Dinámicas
         html = html.replace("{{NUMERO_GRANDE}}", numero_base)
         html = html.replace("{{NUMERO_ROMANO}}", "XI" if numero_base == "11" else ("XXII" if numero_base == "22" else "-"))
         html = html.replace("{{ETIQUETA_NUMERO}}", f"Número Maestro · {numero_base}" if numero_base != "No detectado" else "-")
@@ -110,28 +100,23 @@ class GematriaHTMLAssembler:
         html = html.replace("{{NOMBRE_ARQUETIPO}}", arquetipo)
         html = html.replace("{{CONEXION_SEFIROT}}", "La Corona a la Sabiduría")
 
-        # Inyectar Signos en Tabla
         for tag, valor in signos.items():
             html = html.replace(tag, valor)
 
-        # Inyectar Textos Bloque 1
         html = html.replace("{{TEXTO_SEC_1}}", sec1[0])
         html = html.replace("{{TEXTO_SEC_2}}", sec1[1])
         html = html.replace("{{TEXTO_SEC_3}}", sec1[2])
         html = html.replace("{{TEXTO_SEC_4}}", sec1[3])
 
-        # Inyectar Textos Bloque 2
         html = html.replace("{{TEXTO_SEC_6}}", sec2[1])
         html = html.replace("{{TEXTO_SEC_7}}", sec2[2])
         html = html.replace("{{TEXTO_SEC_8}}", sec2[3])
 
-        # Inyectar Textos Bloque 3
         html = html.replace("{{TEXTO_SEC_9}}", sec3[0])
         html = html.replace("{{TEXTO_SEC_10}}", sec3[1])
         html = html.replace("{{TEXTO_SEC_11}}", sec3[2])
         html = html.replace("{{TEXTO_SEC_12}}", sec3[3])
 
-        # Inyectar Textos Bloque 4
         html = html.replace("{{VEREDICTO_1}}", sec4[0])
         html = html.replace("{{VEREDICTO_2}}", sec4[1])
         html = html.replace("{{VEREDICTO_3}}", sec4[2])
