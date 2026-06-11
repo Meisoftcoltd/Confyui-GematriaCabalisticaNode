@@ -55,42 +55,54 @@ class GematriaHTMLAssembler:
         # ---------------------------------------------------------
         # 3. BASE DE DATOS MAESTRA DEL TAROT (100% DINÁMICO POR NÚMERO)
         # ---------------------------------------------------------
+        # Formato dict: NUMERO: ("Nombre", "Hebreo", "Num Tarot", "Arquetipo", "Conexión")
         tarot_db = {
-            1: ("Aleph", "א", "0", "El Loco", "Kether a Chokmah"),
-            2: ("Bet", "ב", "I", "El Mago", "Kether a Binah"),
-            3: ("Gimel", "ג", "II", "La Sacerdotisa", "Kether a Tiferet"),
-            4: ("Dalet", "ד", "III", "La Emperatriz", "Chokmah a Binah"),
-            5: ("He", "ה", "IV", "El Emperador", "Chokmah a Tiferet"),
-            6: ("Vav", "ו", "V", "El Hierofante", "Chokmah a Chesed"),
-            7: ("Zain", "ז", "VI", "Los Amantes", "Binah a Tiferet"),
-            8: ("Chet", "ח", "VII", "El Carro", "Binah a Gevurah"),
-            9: ("Tet", "ט", "VIII", "La Fuerza", "Chesed a Gevurah"),
-            10: ("Yod", "י", "IX", "El Ermitaño", "Chesed a Tiferet"),
-            11: ("Kaf", "כ", "X", "La Rueda de la Fortuna", "Chesed a Netzach"),
-            12: ("Lamed", "ל", "XI", "La Justicia", "Gevurah a Tiferet"),
-            13: ("Mem", "מ", "XII", "El Colgado", "Gevurah a Hod"),
-            14: ("Nun", "נ", "XIII", "La Muerte", "Tiferet a Netzach"),
-            15: ("Samej", "ס", "XIV", "La Templanza", "Tiferet a Yesod"),
-            16: ("Ayin", "ע", "XV", "El Diablo", "Tiferet a Hod"),
-            17: ("Pe", "פ", "XVI", "La Torre", "Netzach a Hod"),
-            18: ("Tzadi", "צ", "XVII", "La Estrella", "Netzach a Yesod"),
-            19: ("Kof", "ק", "XVIII", "La Luna", "Netzach a Malkhut"),
-            20: ("Resh", "ר", "XIX", "El Sol", "Hod a Yesod"),
-            21: ("Shin", "ש", "XX", "El Juicio", "Hod a Malkhut"),
-            22: ("Tav", "ת", "XXI", "El Mundo", "Yesod a Malkhut")
+            1: ("Keter", "כתר", "", "La Corona", "-"),
+            2: ("Chochmah", "חכמה", "", "La Sabiduría", "-"),
+            3: ("Binah", "בינה", "", "El Entendimiento", "-"),
+            4: ("Chesed", "חסד", "", "La Misericordia", "-"),
+            5: ("Gevurah", "גבורה", "", "El Rigor", "-"),
+            6: ("Tiferet", "תפארת", "", "La Belleza", "-"),
+            7: ("Netzach", "נצח", "", "La Victoria", "-"),
+            8: ("Hod", "הוד", "", "El Esplendor", "-"),
+            9: ("Yesod", "יסוד", "", "El Fundamento", "-"),
+            10: ("Malkhut", "מלכות", "", "El Reino", "-"),
+            11: ("Aleph", "א", "0", "El Loco", "Kether a Chokmah"),
+            12: ("Bet", "ב", "I", "El Mago", "Kether a Binah"),
+            13: ("Gimel", "ג", "II", "La Sacerdotisa", "Kether a Tiferet"),
+            14: ("Dalet", "ד", "III", "La Emperatriz", "Chokmah a Binah"),
+            15: ("He", "ה", "IV", "El Emperador", "Chokmah a Tiferet"),
+            16: ("Vav", "ו", "V", "El Hierofante", "Chokmah a Chesed"),
+            17: ("Zain", "ז", "VI", "Los Amantes", "Binah a Tiferet"),
+            18: ("Chet", "ח", "VII", "El Carro", "Binah a Gevurah"),
+            19: ("Tet", "ט", "VIII", "La Fuerza", "Chesed a Gevurah"),
+            20: ("Yod", "י", "IX", "El Ermitaño", "Chesed a Tiferet"),
+            21: ("Kaf", "כ", "X", "La Rueda de la Fortuna", "Chesed a Netzach"),
+            22: ("Lamed", "ל", "XI", "La Justicia", "Gevurah a Tiferet")
         }
 
-        tarot_data = tarot_db.get(numero_cabalistico, ("Desconocido", "-", "-", "Desconocido", "-"))
+        # Extraemos todos los datos usando el número cabalístico exacto (1-22)
+        tarot_data = tarot_db.get(numero_cabalistico, ("Desconocido", "-", "", "Desconocido", "-"))
         sendero_name = tarot_data[0]
         letra_char = tarot_data[1]
         num_tarot = tarot_data[2]
         arquetipo_str = tarot_data[3]
         conexion = tarot_data[4]
 
+        # Lógica dinámica para formatear correctamente Senderos vs Sefirot
+        if numero_cabalistico <= 10:
+            etiqueta_sendero = f"Sefirá {sendero_name}"
+            etiqueta_carta = f"SEFIRÁ {sendero_name.upper()}"
+        else:
+            etiqueta_sendero = f"{letra_char} · {sendero_name} · Sendero {sendero_name}"
+            etiqueta_carta = f"{sendero_name.upper()} <span class=\"text-gold-500/50 mx-0.5\">•</span> SENDERO {sendero_name.upper()}"
+
+        # Conversor simple a romanos para el número vibracional de la sección 1
         def to_roman(n):
             romans = {11: 'XI', 22: 'XXII', 33: 'XXXIII'}
             return romans.get(n, str(n))
 
+        # Extractor robusto de signos del zodiaco
         def extract_signo(esfera, text):
             zodiac = ["Aries", "Tauro", "Géminis", "Geminis", "Cáncer", "Cancer", "Leo", "Virgo", "Libra", "Escorpio", "Sagitario", "Capricornio", "Acuario", "Piscis"]
             for line in text.split('\n'):
@@ -122,16 +134,15 @@ class GematriaHTMLAssembler:
         html = html.replace("{{NOMBRE}}", nombre)
         html = html.replace("{{IMAGEN_CARTA_BASE64}}", imagen_base64)
 
-        # Datos del Tarot inyectados en la portada y carta
+        # Datos Dinámicos Integrados
         html = html.replace("{{NUMERO_GRANDE}}", str(numero_cabalistico))
         html = html.replace("{{NUMERO_ROMANO}}", to_roman(numero_cabalistico))
         html = html.replace("{{ETIQUETA_NUMERO}}", f"Frecuencia · {numero_cabalistico}")
 
-        # Aquí se inyectan las 3 cosas juntas para la portada (Letra Hebrea, Latín, Nombre Sendero)
-        html = html.replace("{{ETIQUETA_SENDERO}}", f"{letra_char} · {sendero_name} · Sendero {sendero_name}")
+        html = html.replace("{{ETIQUETA_SENDERO}}", etiqueta_sendero)
+        html = html.replace("{{ETIQUETA_CARTA_LATIN}}", etiqueta_carta)
         html = html.replace("{{ETIQUETA_ARQUETIPO}}", arquetipo_str)
 
-        html = html.replace("{{NOMBRE_LETRA_LATIN}}", sendero_name)
         html = html.replace("{{LETRA_HEBREA_CHAR}}", letra_char)
         html = html.replace("{{NUMERO_SENDERO}}", num_tarot)
         html = html.replace("{{NOMBRE_ARQUETIPO}}", arquetipo_str)
