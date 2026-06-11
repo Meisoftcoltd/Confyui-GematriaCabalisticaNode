@@ -142,7 +142,7 @@
         <button onclick="toggleTheme()" class="bg-slate-800 hover:bg-slate-700 text-gold-400 border border-gold-500/30 rounded-full p-3 shadow-[0_0_15px_rgba(212,149,36,0.2)] transition duration-300 flex items-center justify-center" title="Alternar Luz/Oscuridad">
             <i data-lucide="sun" id="theme-icon" class="w-5 h-5"></i>
         </button>
-        <button onclick="window.print()" class="bg-gold-600 hover:bg-gold-500 text-slate-950 rounded-full px-5 py-3 shadow-[0_0_15px_rgba(212,149,36,0.5)] transition duration-300 flex items-center gap-2 font-bold" title="Guardar como PDF (Activa 'Gráficos de fondo')">
+        <button onclick="window.print()" class="bg-gold-600 hover:bg-gold-500 text-slate-950 rounded-full px-5 py-3 shadow-[0_0_15px_rgba(212,149,36,0.5)] transition duration-300 flex items-center gap-2 font-bold" title="Guardar como PDF">
             <i data-lucide="printer" class="w-5 h-5"></i>
             <span class="text-sm font-sans pr-2">Guardar PDF</span>
         </button>
@@ -292,8 +292,10 @@
                         
                         <div class="flex justify-between items-end border-b border-gold-500/10 pb-2 z-10">
                             <div class="flex items-center gap-1.5">
-                                <span class="font-serif text-gold-400 text-2xl leading-none">{{LETRA_HEBREA_CHAR}}</span>
-                                <span class="font-display text-gold-400 text-[0.7rem] tracking-widest uppercase">{{NOMBRE_LETRA_LATIN}}</span>
+                                <span class="font-serif text-gold-400 text-2xl leading-none mt-1">{{LETRA_HEBREA_CHAR}}</span>
+                                <span class="font-display text-gold-400 text-[0.65rem] tracking-widest uppercase">
+                                    {{NOMBRE_LETRA_LATIN}} <span class="text-gold-500/50 mx-0.5">•</span> SENDERO {{NOMBRE_LETRA_LATIN}}
+                                </span>
                             </div>
                             <span class="font-display text-gold-400 text-sm font-bold">{{NUMERO_SENDERO}}</span>
                         </div>

@@ -55,7 +55,6 @@ class GematriaHTMLAssembler:
         # ---------------------------------------------------------
         # 3. BASE DE DATOS MAESTRA DEL TAROT (100% DINÁMICO POR NÚMERO)
         # ---------------------------------------------------------
-        # Formato dict: NUMERO: ("Nombre Latín", "Hebreo", "Num Tarot", "Arquetipo", "Conexión")
         tarot_db = {
             1: ("Aleph", "א", "0", "El Loco", "Kether a Chokmah"),
             2: ("Bet", "ב", "I", "El Mago", "Kether a Binah"),
@@ -81,7 +80,6 @@ class GematriaHTMLAssembler:
             22: ("Tav", "ת", "XXI", "El Mundo", "Yesod a Malkhut")
         }
 
-        # Extraemos todos los datos usando el número cabalístico exacto (1-22)
         tarot_data = tarot_db.get(numero_cabalistico, ("Desconocido", "-", "-", "Desconocido", "-"))
         sendero_name = tarot_data[0]
         letra_char = tarot_data[1]
@@ -89,12 +87,10 @@ class GematriaHTMLAssembler:
         arquetipo_str = tarot_data[3]
         conexion = tarot_data[4]
 
-        # Conversor simple a romanos para el número vibracional de la sección 1
         def to_roman(n):
             romans = {11: 'XI', 22: 'XXII', 33: 'XXXIII'}
             return romans.get(n, str(n))
 
-        # Extractor robusto de signos del zodiaco
         def extract_signo(esfera, text):
             zodiac = ["Aries", "Tauro", "Géminis", "Geminis", "Cáncer", "Cancer", "Leo", "Virgo", "Libra", "Escorpio", "Sagitario", "Capricornio", "Acuario", "Piscis"]
             for line in text.split('\n'):
@@ -126,12 +122,15 @@ class GematriaHTMLAssembler:
         html = html.replace("{{NOMBRE}}", nombre)
         html = html.replace("{{IMAGEN_CARTA_BASE64}}", imagen_base64)
 
-        # Datos del Tarot (Inyectados directamente de la DB Python)
+        # Datos del Tarot inyectados en la portada y carta
         html = html.replace("{{NUMERO_GRANDE}}", str(numero_cabalistico))
         html = html.replace("{{NUMERO_ROMANO}}", to_roman(numero_cabalistico))
         html = html.replace("{{ETIQUETA_NUMERO}}", f"Frecuencia · {numero_cabalistico}")
-        html = html.replace("{{ETIQUETA_SENDERO}}", f"Sendero {sendero_name}")
+
+        # Aquí se inyectan las 3 cosas juntas para la portada (Letra Hebrea, Latín, Nombre Sendero)
+        html = html.replace("{{ETIQUETA_SENDERO}}", f"{letra_char} · {sendero_name} · Sendero {sendero_name}")
         html = html.replace("{{ETIQUETA_ARQUETIPO}}", arquetipo_str)
+
         html = html.replace("{{NOMBRE_LETRA_LATIN}}", sendero_name)
         html = html.replace("{{LETRA_HEBREA_CHAR}}", letra_char)
         html = html.replace("{{NUMERO_SENDERO}}", num_tarot)
