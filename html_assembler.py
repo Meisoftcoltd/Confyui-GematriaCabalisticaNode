@@ -12,7 +12,9 @@ class GematriaHTMLAssembler:
         return {
             "required": {
                 "nombre": ("STRING", {"default": "Nombre Apellido Apellido"}),
-                "imagen": ("IMAGE",), # Entrada para la imagen generada por SDXL/Flux
+                "numero_cabalistico": ("INT", {"default": 11}), # NÚMERO PURO DEL PRIMER NODO
+                "concepto": ("STRING", {"default": "Sendero Aleph, El Loco"}), # CONCEPTO PURO DEL PRIMER NODO
+                "imagen": ("IMAGE",),
                 "md1": ("STRING", {"multiline": True, "default": ""}),
                 "md2": ("STRING", {"multiline": True, "default": ""}),
                 "md3": ("STRING", {"multiline": True, "default": ""}),
@@ -25,7 +27,7 @@ class GematriaHTMLAssembler:
     FUNCTION = "assemble_html"
     CATEGORY = "GematriaCabalistica"
 
-    def assemble_html(self, nombre, imagen, md1, md2, md3, md4):
+    def assemble_html(self, nombre, numero_cabalistico, concepto, imagen, md1, md2, md3, md4):
         # ---------------------------------------------------------
         # 1. CONVERSIÓN DE IMAGEN TENSOR A BASE64
         # ---------------------------------------------------------
@@ -39,14 +41,16 @@ class GematriaHTMLAssembler:
         imagen_base64 = f"data:image/jpeg;base64,{img_base64_str}"
 
         # ---------------------------------------------------------
-        # 2. PARSEO DE TEXTOS CON REGEX (Extracción limpia)
+        # 2. PARSEO DE TEXTOS (Ignora el título principal y corta por ###)
         # ---------------------------------------------------------
         def extract_sections(md_text):
-            # Busca estrictamente todo lo que hay DESPUÉS de una línea con '###'
-            # y se detiene antes del siguiente '###' o el final del documento.
-            # Esto elimina automáticamente los títulos duplicados y el formato roto.
-            matches = re.findall(r'###[^\n]*\n(.*?)(?=###|$)', md_text, re.DOTALL)
-            return [m.replace('**', '').strip() for m in matches]
+            parts = md_text.split('###')
+            sections = []
+            for p in parts[1:]: # Ignoramos parts[0] que es el "# REPORTE VIBRACIONAL..."
+                lines = p.split('\n', 1)
+                content = lines[1].replace('**', '').strip() if len(lines) > 1 else p.strip()
+                sections.append(content)
+            return sections
 
         sec1 = extract_sections(md1) + [""] * 4
         sec2 = extract_sections(md2) + [""] * 4
@@ -54,28 +58,54 @@ class GematriaHTMLAssembler:
         sec4 = extract_sections(md4) + [""] * 3
 
         # ---------------------------------------------------------
-        # 3. EXTRACCIÓN INTELIGENTE DE VARIABLES
+        # 3. BASE DE DATOS DEL TAROT Y SIGNOS (100% DINÁMICO)
         # ---------------------------------------------------------
-        def get_regex_val(pattern, text, fallback="-"):
-            match = re.search(pattern, text, re.IGNORECASE)
-            return match.group(1).strip() if match else fallback
-
-        signos = {
-            "{{SIGNO_KETER}}": get_regex_val(r"Keter \(Neptuno\):\s*\*?([a-zA-Z]+)", md2, "-"),
-            "{{SIGNO_CHOCHMAH}}": get_regex_val(r"Chochmah \(Urano\):\s*\*?([a-zA-Z]+)", md2, "-"),
-            "{{SIGNO_BINAH}}": get_regex_val(r"Binah \(Saturno\):\s*\*?([a-zA-Z]+)", md2, "-"),
-            "{{SIGNO_CHESED}}": get_regex_val(r"Chesed \(Júpiter\):\s*\*?([a-zA-Z]+)", md2, "-"),
-            "{{SIGNO_GEVURAH}}": get_regex_val(r"Gevurah \(Marte\):\s*\*?([a-zA-Z]+)", md2, "-"),
-            "{{SIGNO_TIFERET}}": get_regex_val(r"Tiferet \(Sol\):\s*\*?([a-zA-Z]+)", md2, "-"),
-            "{{SIGNO_NETZACH}}": get_regex_val(r"Netzach \(Venus\):\s*\*?([a-zA-Z]+)", md2, "-"),
-            "{{SIGNO_HOD}}": get_regex_val(r"Hod \(Mercurio\):\s*\*?([a-zA-Z]+)", md2, "-"),
-            "{{SIGNO_YESOD}}": get_regex_val(r"Yesod \(Luna\):\s*\*?([a-zA-Z]+)", md2, "-"),
-            "{{SIGNO_MALKHUT}}": get_regex_val(r"Malkhut \(Ascendente\):\s*\*?([a-zA-Z]+)", md2, "-"),
+        # Formato: "Sendero": ("Letra Hebrea", "Número Tarot", "Conexión")
+        tarot_db = {
+            "Aleph": ("א", "0", "Kether a Chokmah"), "Bet": ("ב", "I", "Kether a Binah"),
+            "Gimel": ("ג", "II", "Kether a Tiferet"), "Dalet": ("ד", "III", "Chokmah a Binah"),
+            "He": ("ה", "IV", "Chokmah a Tiferet"), "Vav": ("ו", "V", "Chokmah a Chesed"),
+            "Zain": ("ז", "VI", "Binah a Tiferet"), "Chet": ("ח", "VII", "Binah a Gevurah"),
+            "Tet": ("ט", "VIII", "Chesed a Gevurah"), "Yod": ("י", "IX", "Chesed a Tiferet"),
+            "Kaf": ("כ", "X", "Chesed a Netzach"), "Lamed": ("ל", "XI", "Gevurah a Tiferet"),
+            "Mem": ("מ", "XII", "Gevurah a Hod"), "Nun": ("נ", "XIII", "Tiferet a Netzach"),
+            "Samej": ("ס", "XIV", "Tiferet a Yesod"), "Ayin": ("ע", "XV", "Tiferet a Hod"),
+            "Pe": ("פ", "XVI", "Netzach a Hod"), "Tzadi": ("צ", "XVII", "Netzach a Yesod"),
+            "Kof": ("ק", "XVIII", "Netzach a Malkhut"), "Resh": ("ר", "XIX", "Hod a Yesod"),
+            "Shin": ("ש", "XX", "Hod a Malkhut"), "Tav": ("ת", "XXI", "Yesod a Malkhut")
         }
 
-        numero_base = get_regex_val(r"frecuencia del número\s*(\d+)", md1, "No detectado")
-        arquetipo = get_regex_val(r"El Arquetipo asociado es\s*([a-zA-Z\s]+)\.", md1, "No detectado")
-        sendero = get_regex_val(r"El Sendero\s*([a-zA-Z]+)\s*es", md1, "No detectado")
+        # Extraer Sendero y Arquetipo directo del input del nodo base (ej. "Sendero Aleph, El loco")
+        concept_parts = [p.strip() for p in concepto.split(',')]
+        sendero_str = concept_parts[0] if len(concept_parts) > 0 else "Aleph"
+        arquetipo_str = concept_parts[1].title() if len(concept_parts) > 1 else "El Loco"
+        sendero_name = sendero_str.replace("Sendero", "").replace("sendero", "").strip().title()
+
+        # Buscar en DB
+        letra, num_tarot, conexion = tarot_db.get(sendero_name, ("-", "-", "-"))
+
+        # Conversor simple a romanos para el número maestro
+        def to_roman(n):
+            romans = {11: 'XI', 22: 'XXII', 33: 'XXXIII'}
+            return romans.get(n, str(n))
+
+        # Extractor robusto de signos del zodiaco
+        def extract_signo(esfera, text):
+            zodiac = ["Aries", "Tauro", "Géminis", "Geminis", "Cáncer", "Cancer", "Leo", "Virgo", "Libra", "Escorpio", "Sagitario", "Capricornio", "Acuario", "Piscis"]
+            for line in text.split('\n'):
+                if esfera.lower() in line.lower():
+                    for sign in zodiac:
+                        if sign.lower() in line.lower():
+                            return sign.capitalize()
+            return "-"
+
+        signos = {
+            "{{SIGNO_KETER}}": extract_signo("Keter", md2), "{{SIGNO_CHOCHMAH}}": extract_signo("Chochmah", md2),
+            "{{SIGNO_BINAH}}": extract_signo("Binah", md2), "{{SIGNO_CHESED}}": extract_signo("Chesed", md2),
+            "{{SIGNO_GEVURAH}}": extract_signo("Gevurah", md2), "{{SIGNO_TIFERET}}": extract_signo("Tiferet", md2),
+            "{{SIGNO_NETZACH}}": extract_signo("Netzach", md2), "{{SIGNO_HOD}}": extract_signo("Hod", md2),
+            "{{SIGNO_YESOD}}": extract_signo("Yesod", md2), "{{SIGNO_MALKHUT}}": extract_signo("Malkhut", md2),
+        }
 
         # ---------------------------------------------------------
         # 4. CARGA DE PLANTILLA E INYECCIÓN
@@ -90,15 +120,16 @@ class GematriaHTMLAssembler:
 
         html = html.replace("{{NOMBRE}}", nombre)
         html = html.replace("{{IMAGEN_CARTA_BASE64}}", imagen_base64)
-        html = html.replace("{{NUMERO_GRANDE}}", numero_base)
-        html = html.replace("{{NUMERO_ROMANO}}", "XI" if numero_base == "11" else ("XXII" if numero_base == "22" else "-"))
-        html = html.replace("{{ETIQUETA_NUMERO}}", f"Número Maestro · {numero_base}" if numero_base != "No detectado" else "-")
-        html = html.replace("{{ETIQUETA_SENDERO}}", f"Sendero {sendero}" if sendero != "No detectado" else "-")
-        html = html.replace("{{ETIQUETA_ARQUETIPO}}", arquetipo)
-        html = html.replace("{{NOMBRE_LETRA_HEBREA}}", "א" if sendero == "Aleph" else "-")
-        html = html.replace("{{NUMERO_SENDERO}}", "0")
-        html = html.replace("{{NOMBRE_ARQUETIPO}}", arquetipo)
-        html = html.replace("{{CONEXION_SEFIROT}}", "La Corona a la Sabiduría")
+
+        html = html.replace("{{NUMERO_GRANDE}}", str(numero_cabalistico))
+        html = html.replace("{{NUMERO_ROMANO}}", to_roman(numero_cabalistico))
+        html = html.replace("{{ETIQUETA_NUMERO}}", f"Frecuencia · {numero_cabalistico}")
+        html = html.replace("{{ETIQUETA_SENDERO}}", f"Sendero {sendero_name}")
+        html = html.replace("{{ETIQUETA_ARQUETIPO}}", arquetipo_str)
+        html = html.replace("{{NOMBRE_LETRA_HEBREA}}", letra)
+        html = html.replace("{{NUMERO_SENDERO}}", num_tarot)
+        html = html.replace("{{NOMBRE_ARQUETIPO}}", arquetipo_str)
+        html = html.replace("{{CONEXION_SEFIROT}}", conexion)
 
         for tag, valor in signos.items():
             html = html.replace(tag, valor)

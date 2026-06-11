@@ -144,7 +144,7 @@
         </button>
         <button onclick="window.print()" class="bg-gold-600 hover:bg-gold-500 text-slate-950 rounded-full px-5 py-3 shadow-[0_0_15px_rgba(212,149,36,0.5)] transition duration-300 flex items-center gap-2 font-bold" title="Guardar como PDF (Activa 'Gráficos de fondo')">
             <i data-lucide="printer" class="w-5 h-5"></i>
-            <span class="text-sm font-sans pr-2">Guardar PDF Místico</span>
+            <span class="text-sm font-sans pr-2">Guardar PDF</span>
         </button>
     </div>
 
@@ -259,16 +259,14 @@
         </div>
     </section>
 
-    <!-- ── CONTENEDOR PRINCIPAL DEL REPORTE TEXTUAL ── -->
     <div id="document-root" class="max-w-4xl mx-auto px-6 py-12 md:py-20 space-y-16">
 
-        <!-- 1. CONTENEDOR ENERGÉTICO -->
         <section class="grid md:grid-cols-12 gap-8 items-center page-break">
             <div class="md:col-span-8 bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow">
                 <div class="flex items-center gap-3">
                     <span class="font-display text-4xl font-bold text-gold-400">{{NUMERO_GRANDE}}</span>
                     <h2 class="font-display text-xl md:text-2xl text-white tracking-wide uppercase">
-                        1. El Contenedor Energético (Frecuencia del Nombre):
+                        El Contenedor Energético (Frecuencia):
                     </h2>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_1}}</p>
@@ -279,18 +277,16 @@
                     <div class="absolute w-full h-full rounded-full border border-dashed border-gold-500/40 animate-[spin_60s_linear_infinite]"></div>
                     <div class="text-center">
                         <span class="font-display text-6xl font-black text-gold-400 block tracking-tighter">{{NUMERO_ROMANO}}</span>
-                        <span class="text-xs font-display tracking-[0.2em] text-gold-500/80 uppercase">Frecuencia Maestra</span>
+                        <span class="text-xs font-display tracking-[0.2em] text-gold-500/80 uppercase">Frecuencia Base</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. EL SENDERO Y EL ARQUETIPO (CON LA IMAGEN GENERADA EN BASE64 - ASPECT 9:16) -->
         <section class="border-t border-gold-500/10 pt-12 page-break">
             <div class="grid md:grid-cols-12 gap-8 items-center">
                 
                 <div class="md:col-span-4 flex justify-center order-last md:order-first">
-                    <!-- MARCO DE LA CARTA TAROT -->
                     <div class="relative w-56 sm:w-60 aspect-[9/16] border-2 border-gold-500/30 rounded-xl bg-slate-900/50 p-4 shadow-2xl flex flex-col justify-between overflow-hidden card-shadow">
                         <div class="absolute -right-12 -top-12 w-32 h-32 bg-gold-400/5 rounded-full blur-2xl"></div>
                         
@@ -315,7 +311,7 @@
                     <div class="flex items-center gap-3">
                         <i data-lucide="compass" class="w-6 h-6 text-gold-400"></i>
                         <h2 class="font-display text-xl md:text-2xl text-white tracking-wide uppercase">
-                            2. El Sendero y El Arquetipo:
+                            El Sendero y El Arquetipo:
                         </h2>
                     </div>
                     <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_2}}</p>
@@ -323,7 +319,6 @@
             </div>
         </section>
 
-        <!-- 3 Y 4. LUZ Y SOMBRAS -->
         <section class="grid md:grid-cols-2 gap-8 border-t border-gold-500/10 pt-12 page-break">
             <div class="bg-gradient-to-br from-amber-500/10 to-yellow-600/5 border border-yellow-500/30 rounded-2xl p-6 md:p-8 space-y-4 shadow-xl card-shadow">
                 <div class="flex items-center gap-3">
@@ -331,7 +326,7 @@
                         <i data-lucide="sun" class="w-6 h-6"></i>
                     </div>
                     <h3 class="font-display text-lg md:text-xl text-yellow-300 uppercase tracking-wider">
-                        3. La Luz y Los Talentos Ocultos:
+                        La Luz y Los Talentos Ocultos:
                     </h3>
                 </div>
                 <p class="text-sm text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_3}}</p>
@@ -343,19 +338,18 @@
                         <i data-lucide="moon" class="w-6 h-6"></i>
                     </div>
                     <h3 class="font-display text-lg md:text-xl text-purple-300 uppercase tracking-wider">
-                        4. Las Klipot y El Sabotaje:
+                        Las Klipot y El Sabotaje:
                     </h3>
                 </div>
                 <p class="text-sm text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_4}}</p>
             </div>
         </section>
 
-        <!-- 5. MAPEO -->
         <section class="border-t border-gold-500/10 pt-12 page-break">
             <div class="text-center mb-8">
                 <i data-lucide="activity" class="w-8 h-8 text-gold-400 mx-auto mb-2"></i>
                 <h2 class="font-display text-xl md:text-2xl text-white tracking-wide uppercase">
-                    5. El Mapeo de las Sefirot Clave:
+                    El Mapeo de las Sefirot Clave:
                 </h2>
             </div>
 
@@ -365,35 +359,34 @@
                         <thead class="bg-gold-500/10 font-display text-gold-300 uppercase tracking-wider text-xs md:text-sm border-b border-gold-500/20">
                             <tr>
                                 <th class="px-4 md:px-6 py-4">Sefirá</th>
-                                <th class="px-4 md:px-6 py-4">Letra Hebrea</th>
+                                <th class="px-4 md:px-6 py-4">Hebreo</th>
                                 <th class="px-4 md:px-6 py-4">Planeta</th>
                                 <th class="px-4 md:px-6 py-4">Signo</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gold-500/10 text-slate-300">
-                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Keter (Neptuno)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">כתר</td><td class="px-4 md:px-6 py-4">Neptuno</td><td class="px-4 md:px-6 py-4">{{SIGNO_KETER}}</td></tr>
-                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Chochmah (Urano)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">חכמה</td><td class="px-4 md:px-6 py-4">Urano</td><td class="px-4 md:px-6 py-4">{{SIGNO_CHOCHMAH}}</td></tr>
-                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Binah (Saturno)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">בינה</td><td class="px-4 md:px-6 py-4">Saturno</td><td class="px-4 md:px-6 py-4">{{SIGNO_BINAH}}</td></tr>
-                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Chesed (Júpiter)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">חסד</td><td class="px-4 md:px-6 py-4">Júpiter</td><td class="px-4 md:px-6 py-4">{{SIGNO_CHESED}}</td></tr>
-                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Gevurah (Marte)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">גבורה</td><td class="px-4 md:px-6 py-4">Marte</td><td class="px-4 md:px-6 py-4">{{SIGNO_GEVURAH}}</td></tr>
-                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Tiferet (Sol)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">תפארת</td><td class="px-4 md:px-6 py-4">Sol</td><td class="px-4 md:px-6 py-4">{{SIGNO_TIFERET}}</td></tr>
-                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Netzach (Venus)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">נצח</td><td class="px-4 md:px-6 py-4">Venus</td><td class="px-4 md:px-6 py-4">{{SIGNO_NETZACH}}</td></tr>
-                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Hod (Mercurio)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">הוד</td><td class="px-4 md:px-6 py-4">Mercurio</td><td class="px-4 md:px-6 py-4">{{SIGNO_HOD}}</td></tr>
-                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Yesod (Luna)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">יסוד</td><td class="px-4 md:px-6 py-4">Luna</td><td class="px-4 md:px-6 py-4">{{SIGNO_YESOD}}</td></tr>
-                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Malkhut (Ascendente)</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">מלכות</td><td class="px-4 md:px-6 py-4">Ascendente</td><td class="px-4 md:px-6 py-4">{{SIGNO_MALKHUT}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Keter</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">כתר</td><td class="px-4 md:px-6 py-4">Neptuno</td><td class="px-4 md:px-6 py-4">{{SIGNO_KETER}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Chochmah</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">חכמה</td><td class="px-4 md:px-6 py-4">Urano</td><td class="px-4 md:px-6 py-4">{{SIGNO_CHOCHMAH}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Binah</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">בינה</td><td class="px-4 md:px-6 py-4">Saturno</td><td class="px-4 md:px-6 py-4">{{SIGNO_BINAH}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Chesed</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">חסד</td><td class="px-4 md:px-6 py-4">Júpiter</td><td class="px-4 md:px-6 py-4">{{SIGNO_CHESED}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Gevurah</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">גבורה</td><td class="px-4 md:px-6 py-4">Marte</td><td class="px-4 md:px-6 py-4">{{SIGNO_GEVURAH}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Tiferet</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">תפארת</td><td class="px-4 md:px-6 py-4">Sol</td><td class="px-4 md:px-6 py-4">{{SIGNO_TIFERET}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Netzach</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">נצח</td><td class="px-4 md:px-6 py-4">Venus</td><td class="px-4 md:px-6 py-4">{{SIGNO_NETZACH}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Hod</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">הוד</td><td class="px-4 md:px-6 py-4">Mercurio</td><td class="px-4 md:px-6 py-4">{{SIGNO_HOD}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Yesod</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">יסוד</td><td class="px-4 md:px-6 py-4">Luna</td><td class="px-4 md:px-6 py-4">{{SIGNO_YESOD}}</td></tr>
+                            <tr class="hover:bg-gold-500/5 transition-colors"><td class="px-4 md:px-6 py-4 font-semibold text-white">Malkhut</td><td class="px-4 md:px-6 py-4 font-serif text-xl text-gold-400">מלכות</td><td class="px-4 md:px-6 py-4">Ascendente</td><td class="px-4 md:px-6 py-4">{{SIGNO_MALKHUT}}</td></tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- 6, 7 y 8 -->
         <section class="border-t border-gold-500/10 pt-12 space-y-12">
             <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-4 shadow-lg card-shadow page-break">
                 <div class="flex items-center gap-3">
                     <span class="font-display text-2xl text-gold-400">6.</span>
                     <h3 class="font-display text-xl text-white tracking-wide uppercase">
-                        6. El Triángulo Superno (Estructura y Límite):
+                        El Triángulo Superno (Estructura y Límite):
                     </h3>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_6}}</p>
@@ -403,7 +396,7 @@
                 <div class="flex items-center gap-3">
                     <span class="font-display text-2xl text-gold-400">7.</span>
                     <h3 class="font-display text-xl text-white tracking-wide uppercase">
-                        7. El Motor Emocional y la Identidad (El Choque Central):
+                        El Motor Emocional y la Identidad (El Choque Central):
                     </h3>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_7}}</p>
@@ -413,20 +406,21 @@
                 <div class="flex items-center gap-3">
                     <span class="font-display text-2xl text-gold-400">8.</span>
                     <h3 class="font-display text-xl text-white tracking-wide uppercase">
-                        8. El Cortocircuito en Malkhut (La Ejecución Física):
+                        El Cortocircuito en Malkhut (La Ejecución Física):
                     </h3>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_8}}</p>
             </div>
         </section>
 
-        <!-- 9, 10 y 11 -->
         <section class="border-t border-gold-500/10 pt-12 space-y-12">
             <div class="bg-gradient-to-r from-red-950/20 via-slate-900/30 to-red-950/10 border border-red-500/20 p-6 md:p-8 rounded-xl space-y-3 shadow-lg card-shadow page-break">
-                <h3 class="font-display text-lg md:text-xl text-red-300 uppercase tracking-wider flex items-center gap-2">
-                    <i data-lucide="shield-alert" class="w-5 h-5 text-red-400"></i>
-                    9. El Diagnóstico de la Herida Principal:
-                </h3>
+                <div class="flex items-center gap-3">
+                    <span class="font-display text-2xl text-red-400">9.</span>
+                    <h3 class="font-display text-lg md:text-xl text-red-300 uppercase tracking-wider">
+                        El Diagnóstico de la Herida Principal:
+                    </h3>
+                </div>
                 <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_9}}</p>
             </div>
 
@@ -434,7 +428,7 @@
                 <div class="flex items-center gap-3">
                     <span class="font-display text-2xl text-gold-400">10.</span>
                     <h3 class="font-display text-xl text-white tracking-wide uppercase">
-                        10. El Origen del Patrón (El Fantasma Familiar):
+                        El Origen del Patrón (El Fantasma Familiar):
                     </h3>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_10}}</p>
@@ -444,14 +438,13 @@
                 <div class="flex items-center gap-3">
                     <span class="font-display text-2xl text-gold-400">11.</span>
                     <h3 class="font-display text-xl text-white tracking-wide uppercase">
-                        11. El Bucle de Sabotaje:
+                        El Bucle de Sabotaje:
                     </h3>
                 </div>
                 <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{TEXTO_SEC_11}}</p>
             </div>
         </section>
 
-        <!-- 12. EL TIKÚN -->
         <section class="border-t border-gold-500/10 pt-12 page-break">
             <div class="bg-gradient-to-br from-gold-950/40 via-slate-900/50 to-gold-950/20 border-2 border-gold-500/30 rounded-3xl p-8 md:p-10 space-y-6 relative overflow-hidden shadow-2xl card-shadow">
                 <div class="absolute -left-16 -bottom-16 w-48 h-48 bg-gold-400/5 rounded-full blur-3xl pointer-events-none"></div>
@@ -459,7 +452,7 @@
                 <div class="text-center space-y-2">
                     <span class="font-display text-gold-400 text-sm tracking-[0.4em] uppercase">Misión Álmica</span>
                     <h2 class="font-display text-2xl md:text-3xl text-gold-300 font-bold uppercase tracking-wider">
-                        12. El Tikún (La Corrección Kármica):
+                        El Tikún (La Corrección Kármica):
                     </h2>
                     <div class="h-[1px] w-16 bg-gold-400/40 mx-auto"></div>
                 </div>
@@ -468,7 +461,6 @@
             </div>
         </section>
 
-        <!-- VEREDICTO FINAL -->
         <footer class="border-t-2 border-double border-gold-500/30 pt-16 space-y-12 page-break">
             <div class="text-center">
                 <p class="font-display text-gold-400 text-xs tracking-[0.5em] uppercase mb-1">Cierre Hermético</p>
@@ -482,7 +474,7 @@
                 <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-3 shadow-lg card-shadow">
                     <h4 class="font-display text-gold-400 text-lg font-bold tracking-wide flex items-center gap-2">
                         <span class="text-xs border border-gold-500/40 rounded px-1.5 py-0.5">I</span>
-                        I. La Síntesis de la Dualidad:
+                        La Síntesis de la Dualidad:
                     </h4>
                     <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{VEREDICTO_1}}</p>
                 </div>
@@ -490,20 +482,19 @@
                 <div class="bg-gradient-to-r from-gold-950/10 via-slate-900/30 to-gold-950/10 border border-gold-500/20 p-6 md:p-8 rounded-xl space-y-3 shadow-lg card-shadow page-break">
                     <h4 class="font-display text-gold-400 text-lg font-bold tracking-wide flex items-center gap-2">
                         <span class="text-xs border border-gold-500/40 rounded px-1.5 py-0.5">II</span>
-                        II. La Promesa del Tikún (El Potencial Desbloqueado):
+                        La Promesa del Tikún (El Potencial Desbloqueado):
                     </h4>
                     <p class="text-slate-300 leading-relaxed text-justify whitespace-pre-wrap">{{VEREDICTO_2}}</p>
                 </div>
 
                 <div class="text-center py-6 border-y border-gold-500/10 max-w-2xl mx-auto my-8 page-break">
                     <h4 class="font-display text-gold-300 text-xl font-black tracking-widest uppercase mb-3">
-                        III. El Mandato de Cierre:
+                        El Mandato de Cierre:
                     </h4>
                     <p class="text-slate-200 text-lg md:text-xl font-light italic leading-relaxed max-w-xl mx-auto whitespace-pre-wrap">{{VEREDICTO_3}}</p>
                 </div>
             </div>
 
-            <!-- Firma de Cierre -->
             <div class="flex flex-col items-center justify-center pt-8 page-break">
                 <svg class="w-12 h-12 text-gold-500/60 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-11.314l.707.707m11.314 11.314l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
@@ -515,12 +506,9 @@
 
     <script>
         lucide.createIcons();
-
-        // Función para alternar el tema claro/oscuro
         function toggleTheme() {
             document.body.classList.toggle('light-theme');
             const icon = document.getElementById('theme-icon');
-            
             if (document.body.classList.contains('light-theme')) {
                 icon.setAttribute('data-lucide', 'moon');
             } else {
